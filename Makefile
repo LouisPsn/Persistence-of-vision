@@ -6,3 +6,6 @@ build : src/$(SCRIPT).c
 
 install :
 	avrdude -p atmega328p -c usbasp -P /dev/ttyACM0 -U flash:w:build/$(SCRIPT).bin
+
+clean :
+	rm build/*
