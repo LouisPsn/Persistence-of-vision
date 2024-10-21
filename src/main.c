@@ -1,5 +1,5 @@
 /*
-Allumage et éteignage de la led
+Allumage et éteignage de la led c
 */
 
 #include <avr/io.h>
