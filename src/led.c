@@ -2,7 +2,6 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
-#include <avr/interrupt.h>
 
 #define DDR_SPI DDRB
 #define DD_SS PB2
@@ -10,7 +9,6 @@
 #define DD_SCK PB5
 #define DD_OE PC1
 #define DD_LE PC2
-#define DD_HALL PD2
 
 #define FOSC 13000000 // Clock Speed
 #define BAUD 38400
@@ -74,21 +72,14 @@ void MBI5024_SendData(char data1, char data2)
 
     // Make DD_LE port at 1
     PORTC |= (1 << DD_LE);
-    _delay_ms(1);
     // Make DD_LE port at 0
     PORTC &= ~(1 << DD_LE);
 
     // Make DD_OE port at 1
     PORTC |= (1 << DD_OE);
-    _delay_ms(1);
+    _delay_ms(25);
     // Make DD_OE port at 0
     PORTC &= ~(1 << DD_OE);
-}
-
-uint8_t detect_magnet()
-{
-    uint8_t value = PIND & (1 << DD_HALL);
-    return value;
 }
 
 void main(void)
@@ -103,23 +94,44 @@ void main(void)
     // Make DD_LE port at 0
     PORTC &= ~(1 << DD_LE);
 
-    // Initialize connexion with hall sensor
-    DDRD &= ~(1 << DD_HALL);
-    PORTD |= (1 << DD_HALL);
-
     // Initialize SPI as master
     USART_Init(MYUBRR);
     SPI_MasterInit();
 
     while (1)
     {
-        if (!detect_magnet())
-        {
-            MBI5024_SendData(0b11111111, 0b11111111);
-        }
-        else
-        {
-            MBI5024_SendData(0b00000000, 0b00000000);
-        }
+        MBI5024_SendData(0b10000000, 0b00000000);
+        MBI5024_SendData(0b01000000, 0b00000000);
+        MBI5024_SendData(0b00100000, 0b00000000);
+        MBI5024_SendData(0b00010000, 0b00000000);
+        MBI5024_SendData(0b00001000, 0b00000000);
+        MBI5024_SendData(0b00000100, 0b00000000);
+        MBI5024_SendData(0b00000010, 0b00000000);
+        MBI5024_SendData(0b00000001, 0b00000000);
+        MBI5024_SendData(0b00000000, 0b10000000);
+        MBI5024_SendData(0b00000000, 0b01000000);
+        MBI5024_SendData(0b00000000, 0b00100000);
+        MBI5024_SendData(0b00000000, 0b00010000);
+        MBI5024_SendData(0b00000000, 0b00001000);
+        MBI5024_SendData(0b00000000, 0b00000100);
+        MBI5024_SendData(0b00000000, 0b00000010);
+        MBI5024_SendData(0b00000000, 0b00000001);
+
+        MBI5024_SendData(0b00000000, 0b00000001);
+        MBI5024_SendData(0b00000000, 0b00000010);
+        MBI5024_SendData(0b00000000, 0b00000100);
+        MBI5024_SendData(0b00000000, 0b00001000);
+        MBI5024_SendData(0b00000000, 0b00010000);
+        MBI5024_SendData(0b00000000, 0b00100000);
+        MBI5024_SendData(0b00000000, 0b01000000);
+        MBI5024_SendData(0b00000000, 0b10000000);
+        MBI5024_SendData(0b00000001, 0b00000000);
+        MBI5024_SendData(0b00000010, 0b00000000);
+        MBI5024_SendData(0b00000100, 0b00000000);
+        MBI5024_SendData(0b00001000, 0b00000000);
+        MBI5024_SendData(0b00010000, 0b00000000);
+        MBI5024_SendData(0b00100000, 0b00000000);
+        MBI5024_SendData(0b01000000, 0b00000000);
+        MBI5024_SendData(0b10000000, 0b00000000);
     }
 }

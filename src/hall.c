@@ -3,6 +3,8 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
+#define DD_HALL PD2
+
 #define FOSC 13000000 // Clock Speed
 #define BAUD 38400
 #define MYUBRR FOSC / 16 / BAUD - 1
@@ -43,11 +45,24 @@ void transmit_txt(unsigned char* txt, int lenght)
     }
 }
 
+
+uint8_t detect_magnet()
+{
+    uint8_t value = PIND & (1 << DD_HALL);
+    return value;
+}
+
+
 void main(void)
 {
+    DDRD &= ~(1 << DD_HALL);
+    PORTD |= (1 << DD_HALL);
+
     USART_Init(MYUBRR);
     while (1)
     {
-        USART_Transmit(USART_Receive());
+        transmit_txt("Valeur hall : ", 14);
+        USART_Transmit(detect_magnet() + 48);
+        transmit_txt("\n", 1);
     }
 }
