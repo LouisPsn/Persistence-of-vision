@@ -1,9 +1,9 @@
 #include <avr/io.h>
 #include <util/delay.h>
-#include "functions_SPI_led.h"
-#include "functions_hall.h"
-#include "functions_horloge.h"
-#include "interrupt.h"
+#include "Functions_in_h/functions_SPI_led.h"
+#include "Functions_in_h/functions_hall.h"
+#include "Functions_in_h/functions_horloge.h"
+#include "Functions_in_h/interrupt.h"
 
 void setup(){
     SPI_MasterInit();
