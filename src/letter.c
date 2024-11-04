@@ -9,10 +9,11 @@
 void setup(){
     SPI_MasterInit();
     hall_sensor_init();
+    sei();
 }
 
 void loop(){
-    word("eirbototo");
+    word("arthurosssssssssssss");
 }
 
 int main(void){

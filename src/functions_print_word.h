@@ -5,6 +5,7 @@
 #include "functions_print_letter.h"
 #include <stdbool.h>
 #include <string.h>
+#include "interrupt.h"
 
 #ifndef FUNCTIONS_LETTER_1_H
 #define FUNCTIONS_LETTER_1_H
