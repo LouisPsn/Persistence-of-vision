@@ -36,11 +36,3 @@ void transmit_txt(unsigned char* txt, int lenght)
     }
 }
 
-void main(void)
-{
-    USART_Init(MYUBRR);
-    while (1)
-    {
-        USART_Transmit(USART_Receive());
-    }
-}
