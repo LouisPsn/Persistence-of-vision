@@ -6,7 +6,7 @@
 
 void setup(){
     SPI_MasterInit();
-    hall_init();
+    hall_sensor_init();
 }
 
 void loop(){

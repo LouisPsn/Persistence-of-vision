@@ -1,4 +1,4 @@
-#include "functions_letter.h"
+#include "functions_print_letter.h"
 
 void A(int16_t tic, int16_t tic_par_tour, int16_t offset){
     if(tic== (int) (offset)*(tic_par_tour/60)){ 
