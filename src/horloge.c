@@ -3,10 +3,12 @@
 #include "functions_SPI_led.h"
 #include "functions_hall.h"
 #include "functions_horloge.h"
+#include "interrupt.h"
 
 void setup(){
     SPI_MasterInit();
-    hall_init();
+    hall_sensor_init();
+    sei();
 }
 
 void loop(){
