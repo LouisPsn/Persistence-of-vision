@@ -1,11 +1,4 @@
-/* Communication par bluetooth */
-
-#include <avr/io.h>
-#include <util/delay.h>
-
-#define FOSC 13000000 // Clock Speed
-#define BAUD 38400
-#define MYUBRR FOSC / 16 / BAUD - 1
+#include "bluetooth.h"
 
 void USART_Init(unsigned int ubrr)
 {
