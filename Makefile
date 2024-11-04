@@ -15,7 +15,7 @@ functions_print_letter : src/functions_print_letter.c
 	avr-gcc -mmcu=atmega328p -DF_CPU=13000000 -Os -c -o build/functions_print_letter.o src/functions_print_letter.c
 
 functions_print_word : src/functions_print_word.c functions_print_letter
-	avr-gcc -mmcu=atmega328p -DF_CPU=13000000 -Os -c -o build/functions_print_word.o src/functions_print_word.c build/interrupt.o
+	avr-gcc -mmcu=atmega328p -DF_CPU=13000000 -Os -c -o build/functions_print_word.o src/functions_print_word.c
 
 functions_SPI_led : src/functions_SPI_led.c
 	avr-gcc -mmcu=atmega328p -DF_CPU=13000000 -Os -c -o build/functions_SPI_led.o src/functions_SPI_led.c
@@ -39,6 +39,6 @@ horloge : src/horloge.c
 	avr-gcc -mmcu=atmega328p -DF_CPU=13000000 -Os -o build/main.elf src/horloge.c
 	avr-objcopy -O binary build/main.elf build/main.bin
 
-letter : src/letter.c functions_SPI_led functions_print_word interrupt 
-	avr-gcc -mmcu=atmega328p -DF_CPU=13000000 -Os -o build/main.elf src/letter.c build/functions_print_word.o build/functions_SPI_led.o
+letter : src/letter.c functions_SPI_led functions_print_word interrupt
+	avr-gcc -mmcu=atmega328p -DF_CPU=13000000 -Os -o build/main.elf src/letter.c build/functions_print_word.o build/functions_SPI_led.o build/interrupt.o
 	avr-objcopy -O binary build/main.elf build/main.bin

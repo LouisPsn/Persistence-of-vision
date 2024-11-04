@@ -3,6 +3,8 @@
 #include "functions_SPI_led.h"
 #include "functions_hall.h"
 #include "functions_print_word.h"
+#include "interrupt.h"
+
 
 void setup(){
     SPI_MasterInit();
