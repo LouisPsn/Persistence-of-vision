@@ -1,11 +1,4 @@
-#include <avr/io.h>
-#include <util/delay.h>
-#include "functions_SPI_led.h"
-#include "functions_hall.h"
-#include <stdbool.h>
-
-#ifndef FUNCTIONS_LETTER_2_H
-#define FUNCTIONS_LETTER_2_H
+#include "functions_letter.h"
 
 void A(int16_t tic, int16_t tic_par_tour, int16_t offset){
     if(tic== (int) (offset)*(tic_par_tour/60)){ 
@@ -563,6 +556,3 @@ void choose_letter(char letter, int16_t tic, int16_t tic_par_tour, int16_t offse
             break;
     }
 }
-
-
-#endif

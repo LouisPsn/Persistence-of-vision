@@ -1,13 +1,4 @@
-#include <avr/io.h>
-#include <util/delay.h>
-#include "functions_SPI_led.h"
-#include "functions_hall.h"
-#include "functions_letter_2.h"
-#include <stdbool.h>
-#include <string.h>
-
-#ifndef FUNCTIONS_LETTER_1_H
-#define FUNCTIONS_LETTER_1_H
+#include "functions_print_word.h"
 
 /*
 void print_hello(int16_t tic, int16_t tic_par_tour, int16_t offset){
