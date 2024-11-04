@@ -14,32 +14,36 @@ void print_test(int16_t tic, int16_t tic_par_tour, int16_t offset){
 }
 */
 
-void print_word(char *str, int16_t tic, int16_t tic_par_tour, int16_t offset) {
-    for (int i = 0; i < strlen(str) && str[i] != '\0'; i++) {
+volatile int16_t tic_par_tour = 0;
+volatile int16_t tic = 0;
+volatile char first = 1;
+
+// Generate an interrupt when the hall sensor detect a magnet
+ISR(INT0_vect)
+{
+    // Code things to do during the interruption, the code should be as short as possible
+    tic_par_tour = tic;
+    tic = 0;
+    first = 0;
+}
+
+void print_word(char *str, int16_t tic, int16_t tic_par_tour, int16_t offset)
+{
+    for (int i = 0; i < strlen(str) && str[i] != '\0'; i++)
+    {
         choose_letter(str[i], tic, tic_par_tour, offset - 6 * i);
     }
 }
 
-void word(char * str){
-    volatile int16_t tic_par_tour = 0;
-    volatile int16_t tic = 0;
-    volatile char first=1;
+void word(char *str)
+{
 
-    while(1){
-        if(!read_state_hall()){
-            tic_par_tour=tic;
-            tic=0;
-            while(!read_state_hall()){}
-            first=0;
-        }
-        else{
-            tic++;
-            if(!first){
-                print_word(str, tic, tic_par_tour, 55);
-            }
+    while (1)
+    {
+        tic++;
+        if (!first)
+        {
+            print_word(str, tic, tic_par_tour, 55);
         }
     }
 }
-
-
-#endif

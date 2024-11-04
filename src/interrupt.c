@@ -7,10 +7,3 @@ void hall_sensor_init()
     EICRA |= (1 << ISC01);
     EIMSK |= (1 << INT0);
 }
-
-
-// Generate an interrupt when the hall sensor detect a magnet
-ISR(INT0_vect)
-{
-    // Code things to do during the interruption, the code should be as short
-}

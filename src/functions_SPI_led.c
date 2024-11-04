@@ -117,5 +117,3 @@ void SPI_MasterTransmit(int16_t cData, int16_t d)
     // for(int i=0; i<d; i++ ){_delay_ms(1);}
     //_delay_us(10);horloge_trigo();
 }
-
-#endif
