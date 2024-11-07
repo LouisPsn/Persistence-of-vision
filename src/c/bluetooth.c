@@ -1,4 +1,4 @@
-#include "../Functions_in_h/bluetooth.h"
+#include "../h/bluetooth.h"
 
 void USART_Init(unsigned int ubrr)
 {

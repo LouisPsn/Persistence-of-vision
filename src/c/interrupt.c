@@ -1,4 +1,4 @@
-#include "../Functions_in_h/interrupt.h"
+#include "../h/interrupt.h"
 
 // Set INT0 to fall edge of DD_HALL
 void hall_sensor_init()

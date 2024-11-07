@@ -1,14 +1,17 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include "../h/buffer.h"
 
-#define RING_BUFFER_SIZE 360
+#define RING_BUFFER_SIZE 60
+#define MAX_NB_FRAME 10
 
 struct ring_buffer
 {
-    uint16_t data[RING_BUFFER_SIZE];
+    uint16_t data[RING_BUFFER_SIZE][MAX_NB_FRAME];
     int read;
     int write;
+    int nb_frames;
 };
 
 // Initialise le buffer circulaire

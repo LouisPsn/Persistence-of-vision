@@ -1,11 +1,13 @@
+#ifndef LETTER_H
+#define LETTER_H
+
 #include <avr/io.h>
 #include <util/delay.h>
-#include "functions_SPI_led.h"
-#include "functions_hall.h"
+#include "SPI_led.h"
+#include "hall.h"
 #include <stdbool.h>
 
-#ifndef FUNCTIONS_LETTER_2_H
-#define FUNCTIONS_LETTER_2_H
+
 
 void A(int16_t tic, int16_t tic_par_tour, int16_t offset);
 

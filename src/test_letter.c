@@ -1,9 +1,9 @@
 #include <avr/io.h>
 #include <util/delay.h>
-#include "Functions_in_h/functions_SPI_led.h"
-#include "Functions_in_h/functions_hall.h"
-#include "Functions_in_h/functions_print_word.h"
-#include "Functions_in_h/interrupt.h"
+#include "h/SPI_led.h"
+#include "h/hall.h"
+#include "h/word.h"
+#include "h/interrupt.h"
 
 
 void setup(){

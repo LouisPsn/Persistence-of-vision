@@ -1,4 +1,4 @@
-#include "../Functions_in_h/functions_print_word.h"
+#include "../h/word.h"
 
 /*
 void print_hello(int16_t tic, int16_t tic_par_tour, int16_t offset){

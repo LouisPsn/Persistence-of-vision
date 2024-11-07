@@ -1,13 +1,13 @@
+#ifndef FUNCTIONS_HORLOGE_H
+#define FUNCTIONS_HORLOGE_H
+
 #include <avr/io.h>
 #include <util/delay.h>
-#include "functions_SPI_led.h"
-#include "functions_hall.h"
+#include "SPI_led.h"
+#include "hall.h"
 #include "interrupt.h"
 #include "bluetooth.h"
 #include <stdbool.h>
-
-#ifndef FUNCTIONS_HORLOGE_H
-#define FUNCTIONS_HORLOGE_H
 
 void horloge_trigo();
 

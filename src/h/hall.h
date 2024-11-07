@@ -1,8 +1,8 @@
-#include <avr/io.h>
-#include <util/delay.h>
-
 #ifndef FUNCTIONS_HALL_H
 #define FUNCTIONS_HALL_H
+
+#include <avr/io.h>
+#include <util/delay.h>
 
 void hall_init();
 

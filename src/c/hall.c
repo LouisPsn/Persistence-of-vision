@@ -1,4 +1,4 @@
-#include "../Functions_in_h/functions_hall.h"
+#include "../h/hall.h"
 
 void hall_init(void)
 {
