@@ -42,3 +42,7 @@ horloge : src/horloge.c functions_SPI_led interrupt functions_horloge functions_
 letter : src/letter.c functions_SPI_led functions_print_word interrupt
 	avr-gcc -mmcu=atmega328p -DF_CPU=13000000 -Os -o build/main.elf src/letter.c build/functions_print_word.elf build/functions_print_letter.elf build/functions_SPI_led.elf build/interrupt.elf
 	avr-objcopy -O binary build/main.elf build/main.bin
+
+clock : src/clock.c
+	avr-gcc -mmcu=atmega328p -DF_CPU=13000000 -Os -o build/main.elf src/clock.c
+	avr-objcopy -O binary build/main.elf build/main.bin
