@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include "../h/buffer.h"
 
-#define RING_BUFFER_SIZE 60
+#define RING_BUFFER_SIZE  // Aka number of "frames" during 1 turn of wheel
 #define MAX_NB_FRAME 10
 
 struct ring_buffer
