@@ -5,7 +5,7 @@
 #include <util/delay.h>
 #include "SPI_led.h"
 #include "hall.h"
-#include "letter.h"
+#include "old_letter.h"
 #include <stdbool.h>
 #include <string.h>
 #include "interrupt.h"
