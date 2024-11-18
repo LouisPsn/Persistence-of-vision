@@ -36,3 +36,28 @@ void transmit_txt(unsigned char* txt, int lenght)
     }
 }
 
+void transmit_number(long long num)
+{
+    int val[10] = {0};
+    int counter = 0;
+    while (num > 10)
+    {
+        val[counter] = num % 10;
+        num /= 10;
+        counter++;
+    }
+    if (num == 10)
+    {
+        val[counter] = 0;
+        counter++;
+        val[counter] = 1;
+    }
+    else {
+        val[counter] = num;
+    }
+
+    for (int i = 9; i >= 0; i--)
+    {
+        USART_Transmit(val[i] + 48);
+    }
+}

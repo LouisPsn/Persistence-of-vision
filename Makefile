@@ -10,6 +10,9 @@ install :
 bluetooth : src/bluetooth.c
 	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -c -c -o build/bluetooth.elf src/bluetooth.c
 
+clock : src/clock.c
+	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -c -o build/clock.elf src/clock.c
+
 hall : src/c/hall.c
 	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -c -o build/hall.elf src/c/hall.c
 
@@ -48,6 +51,6 @@ test_letter : src/test_letter.c SPI_led old_letter word interrupt
 	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -o build/main.elf src/test_letter.c build/word.elf build/old_letter.elf build/SPI_led.elf build/interrupt.elf
 	$(obj) -O binary build/main.elf build/main.bin
 
-test_clock : src/test_clock.c
-	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -o build/main.elf src/test_clock.c
+test_clock : src/test_clock.c bluetooth clock
+	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -o build/main.elf src/test_clock.c build/bluetooth.elf build/clock.elf
 	$(obj) -O binary build/main.elf build/main.bin

@@ -18,4 +18,6 @@ void USART_Transmit(unsigned char data);
 
 void transmit_txt(unsigned char* txt, int lenght);
 
+void transmit_number(long long num);
+
 #endif
