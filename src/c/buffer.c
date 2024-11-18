@@ -1,105 +1,78 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdint.h>
 #include "../h/buffer.h"
 
-#define RING_BUFFER_SIZE  // Aka number of "frames" during 1 turn of wheel
-#define MAX_NB_FRAME 10
-
-struct ring_buffer
-{
-    uint16_t data[RING_BUFFER_SIZE][MAX_NB_FRAME];
-    int read;
-    int write;
-    int nb_frames;
-};
 
 // Initialise le buffer circulaire
 void ring_buffer_init(struct ring_buffer *rb)
 {
     for (int i = 0; i < RING_BUFFER_SIZE; i++)
     {
-        rb->data[i] = 0;
+        rb->buffer[i] = 0;
     }
-    rb->read = 0;
     rb->write = 0;
+    rb->read = 0;
+    rb->available = 0;
 }
 
-// Ajoute un octet dans le buffer circulaire
-void ring_buffer_put(struct ring_buffer *rb, uint8_t data)
+// gère l'incrémentation de write
+void ring_buffer_incr_write(struct ring_buffer *rb)
 {
-    rb->data[rb->write] = data;
-    rb->write++;
-    if (rb->write >= RING_BUFFER_SIZE)
+    if (rb->write == RING_BUFFER_SIZE - 1)
     {
         rb->write = 0;
     }
+    else
+    {
+        rb->write += 1;
+    }
+    //rb->available--;
 }
 
-// Récupère un octet du buffer circulaire
-uint8_t ring_buffer_get(struct ring_buffer *rb)
+// gère l'incrémentation de read
+void ring_buffer_incr_read(struct ring_buffer *rb)
 {
-    uint8_t data = rb->data[rb->read];
-    rb->read++;
-    if (rb->read >= RING_BUFFER_SIZE)
+    if (rb->read == RING_BUFFER_SIZE - 1)
     {
         rb->read = 0;
     }
-    return data;
+    else
+    {
+        rb->read += 1;
+    }
+    //rb->available++;
+}
+
+// Ajoute un octet dans le buffer circulaire
+void ring_buffer_put(struct ring_buffer *rb, uint16_t data)
+{
+    rb->buffer[rb->write] = data;
+    ring_buffer_incr_write(rb);
+}
+
+// Récupère un octet du buffer circulaire
+uint16_t ring_buffer_get(struct ring_buffer *rb)
+{
+    uint16_t res = rb->buffer[rb->read];
+    ring_buffer_incr_read(rb);
+    return res;
 }
 
 // Indique le nombre d'octets disponibles dans le buffer circulaire
 uint8_t ring_buffer_available_bytes(struct ring_buffer *rb)
 {
-    int write;
-    if (rb->write < rb->read)
-    {
-        write = rb->write + RING_BUFFER_SIZE;
-    }
-    else
-    {
-        write = rb->write;
-    }
-
-    uint8_t size = RING_BUFFER_SIZE - write + rb->read;
-    return size;
+    return rb->available;
 }
 
 // Indique si le buffer circulaire est plein
 uint8_t ring_buffer_is_full(struct ring_buffer *rb)
 {
-    return ring_buffer_available_bytes(rb) == 0;
-}
-
-int main()
-{
-    struct ring_buffer rb;
-    ring_buffer_init(&rb);
-
-    for (int iter = 0; iter < 10; iter++)
+    if (rb->available == 0)
     {
-        ring_buffer_put(&rb, 'C');
-        ring_buffer_put(&rb, 'a');
-        ring_buffer_put(&rb, ' ');
-        ring_buffer_put(&rb, 'v');
-        ring_buffer_put(&rb, 'a');
-        ring_buffer_put(&rb, ' ');
-        ring_buffer_put(&rb, 'b');
-        ring_buffer_put(&rb, 'i');
-        ring_buffer_put(&rb, 'e');
-        ring_buffer_put(&rb, 'n');
-        ring_buffer_put(&rb, '?');
-
-        printf("Taille dispo : %d\n", ring_buffer_available_bytes(&rb));
-
-        for (int i = 0; i < 11; i++)
-        {
-            printf("%c", ring_buffer_get(&rb));
-        }
-        printf("\n");
-
-        printf("Taille dispo : %d\n", ring_buffer_available_bytes(&rb));
+        return 0;
     }
-
-    return EXIT_SUCCESS;
+    else
+    {
+        return 1;
+    }
 }
+
+
