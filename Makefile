@@ -7,11 +7,11 @@ freq = 13000000
 install :
 	$(dude) -p $(chip) -c usbasp -P /dev/ttyACM0 -U flash:w:build/main.bin
 
-bluetooth : src/bluetooth.c
-	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -c -c -o build/bluetooth.elf src/bluetooth.c
+bluetooth : src/c/bluetooth.c
+	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -c -o build/bluetooth.elf src/c/bluetooth.c
 
-clock : src/clock.c
-	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -c -o build/clock.elf src/clock.c
+clock : src/c/clock.c
+	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -c -o build/clock.elf src/c/clock.c
 
 hall : src/c/hall.c
 	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -c -o build/hall.elf src/c/hall.c
@@ -43,8 +43,8 @@ test_spi : src/test_SPI.c SPI_led
 	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -o build/main.elf src/test_SPI.c build/SPI_led.elf
 	$(obj) -O binary build/main.elf build/main.bin
 
-test_horloge : src/test_horloge.c SPI_led interrupt horloge hall
-	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -o build/main.elf src/test_horloge.c build/SPI_led.elf build/interrupt.elf build/horloge.elf build/hall.elf
+test_horloge : src/test_horloge.c SPI_led interrupt horloge hall clock
+	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -o build/main.elf src/test_horloge.c build/SPI_led.elf build/interrupt.elf build/horloge.elf build/hall.elf build/clock.elf
 	$(obj) -O binary build/main.elf build/main.bin
 
 test_letter : src/test_letter.c SPI_led old_letter word interrupt

@@ -19,8 +19,3 @@ void init_clock()
 
     sei();
 }
-
-ISR(TIMER1_OVF_vect)  
-{
-    time_ms++;
-}
