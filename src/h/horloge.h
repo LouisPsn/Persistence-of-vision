@@ -8,6 +8,7 @@
 #include "interrupt.h"
 #include "bluetooth.h"
 #include <stdbool.h>
+#include "../h/clock.h"
 
 void horloge_trigo();
 

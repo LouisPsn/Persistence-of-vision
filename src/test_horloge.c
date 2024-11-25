@@ -8,6 +8,7 @@
 void setup(){
     SPI_MasterInit();
     hall_sensor_init();
+    init_clock();
     sei();
 }
 
