@@ -1,5 +1,5 @@
-#ifndef FUNCTIONS_HALL_H
-#define FUNCTIONS_HALL_H
+#ifndef HALL_H
+#define HALL_H
 
 #include <avr/io.h>
 #include <util/delay.h>

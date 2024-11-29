@@ -1,73 +1,60 @@
 #include "../h/horloge.h"
 
-volatile int16_t tic_par_tour = 0;
-volatile int16_t tic = 0;
-volatile char first = 1;
+// // Generate an interrupt when the hall sensor detect a magnet
+// ISR(INT0_vect)
+// {
+//     // Code things to do during the interruption, the code should be as short as possible
+//     tic_par_tour = tic;
+//     tic = 0;
+//     first = 0;
+// }
 
-// Generate an interrupt when the hall sensor detect a magnet
-ISR(INT0_vect)
-{
-    // Code things to do during the interruption, the code should be as short as possible
-    tic_par_tour = tic;
-    tic = 0;
-    first = 0;
-}
+// ISR(TIMER1_OVF_vect)
+// {
+//     time_ms++;
+// }
 
-ISR(TIMER1_OVF_vect)
-{
-    time_ms++;
-}
+
 
 void horloge_trigo()
 {
-    volatile int8_t sec = time_ms / 1000;
-    volatile int8_t min = 59;
-    volatile int8_t heures = 17;
-    while (1)
+    tic++;
+    sec = time_ms / 1000;
+    if (sec >= 60)
     {
-        tic++;
-        sec = time_ms / 1000;
-        if (sec >= 60)
-        {
-            time_ms = 0;
-            sec = 0;
-            min++;
-        }
-        if (min == 60)
-        {
-            min = 0;
-            heures++;
-        }
-        if (heures >= 12)
-        {
-            heures = heures - 12;
-        }
+        time_ms = 0;
+        sec = 0;
+        min++;
+    }
+    if (min == 60)
+    {
+        min = 0;
+        heures++;
+    }
+    if (heures >= 12)
+    {
+        heures = heures - 12;
+    }
 
-        if (!first)
-        {
-            if (tic_par_tour - tic <= (int)(/*tic_par_tour/2 + */ sec * tic_par_tour / 60))
-            { // rond extérieur, aiguille des secondes
-                SPI_MasterTransmit_us(0b1000000000000000, 10);
-            }
-            if (tic_par_tour - tic == (int)(/*tic_par_tour/2 + */ heures * tic_par_tour / 12))
-            { // la petite aiguille, aiguille des heurs
-                SPI_MasterTransmit_us(0b0000000011111111, 10);
-            }
-            if (tic_par_tour - tic == (int)(/*tic_par_tour/2 + */ min * tic_par_tour / 60))
-            { // la grande aiguille, aiguille des minutes
-                SPI_MasterTransmit_us(0b1111111111111110, 10);
-            }
+    if (!first)
+    {
+        if (tic_par_tour - tic <= (int)(/*tic_par_tour/2 + */ sec * tic_par_tour / 60))
+        { // rond extérieur, aiguille des secondes
+            SPI_MasterTransmit_us(0b1000000000000000, 10);
+        }
+        if (tic_par_tour - tic == (int)(/*tic_par_tour/2 + */ heures * tic_par_tour / 12))
+        { // la petite aiguille, aiguille des heurs
+            SPI_MasterTransmit_us(0b0000000011111111, 10);
+        }
+        if (tic_par_tour - tic == (int)(/*tic_par_tour/2 + */ min * tic_par_tour / 60))
+        { // la grande aiguille, aiguille des minutes
+            SPI_MasterTransmit_us(0b1111111111111110, 10);
         }
     }
 }
 
 void horloge_2()
 {
-    volatile int16_t tic_par_tour = 0;
-    volatile int16_t tic = 0;
-    volatile int8_t sec = 0;
-    volatile int8_t min = 10;
-    volatile char first = 1;
     volatile char save = read_state_hall();
 
     while (1)

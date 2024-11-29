@@ -1,5 +1,5 @@
-#ifndef FUNCTIONS_BUFFER_H
-#define FUNCTIONS_BUFFER_H
+#ifndef BUFFER_H
+#define BUFFER_H
 
 #include <avr/io.h>
 #include <util/delay.h>

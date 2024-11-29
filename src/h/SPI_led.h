@@ -1,3 +1,6 @@
+#ifndef FUNCTIONS_SPI_LED_H
+#define FUNCTIONS_SPI_LED_H
+
 #include <avr/io.h>
 #include <util/delay.h>
 
@@ -7,9 +10,6 @@
 #define DD_SCK PB5
 #define LE PC2
 #define OE PC1
-
-#ifndef FUNCTIONS_SPI_LED_H
-#define FUNCTIONS_SPI_LED_H
 
 void SPI_MasterInit(void);
 

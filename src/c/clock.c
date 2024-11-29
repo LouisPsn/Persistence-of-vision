@@ -1,4 +1,3 @@
-#include <avr/interrupt.h>
 #include "../h/clock.h"
 
 // Function that initialize clock to generate 1000Hz signal in Fast PWM Mode, f clk_I/O = 13MHz, N = 8, TOP = 1624

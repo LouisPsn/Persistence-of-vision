@@ -1,14 +1,22 @@
-#ifndef FUNCTIONS_HORLOGE_H
-#define FUNCTIONS_HORLOGE_H
+#ifndef HORLOGE_H
+#define HORLOGE_H
 
 #include <avr/io.h>
 #include <util/delay.h>
+#include <stdbool.h>
 #include "SPI_led.h"
 #include "hall.h"
 #include "interrupt.h"
 #include "bluetooth.h"
-#include <stdbool.h>
 #include "../h/clock.h"
+
+volatile static int16_t tic_par_tour = 0;
+volatile static int16_t tic = 0;
+volatile static char first = 1;
+
+volatile static int8_t heures = 17;
+volatile static int8_t min = 59;
+volatile static int8_t sec = 0;
 
 void horloge_trigo();
 
