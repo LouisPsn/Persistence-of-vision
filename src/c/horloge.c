@@ -1,18 +1,18 @@
 #include "../h/horloge.h"
 
 // // Generate an interrupt when the hall sensor detect a magnet
-// ISR(INT0_vect)
-// {
-//     // Code things to do during the interruption, the code should be as short as possible
-//     tic_par_tour = tic;
-//     tic = 0;
-//     first = 0;
-// }
+ISR(INT0_vect)
+{
+    // Code things to do during the interruption, the code should be as short as possible
+    tic_par_tour = tic;
+    tic = 0;
+    first = 0;
+}
 
-// ISR(TIMER1_OVF_vect)
-// {
-//     time_ms++;
-// }
+ISR(TIMER1_OVF_vect)
+{
+    time_ms++;
+}
 
 
 

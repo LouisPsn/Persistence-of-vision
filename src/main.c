@@ -9,18 +9,18 @@ static volatile int16_t position = 1;
 static struct ring_buffer rb;
 
 // Generate an interrupt when the hall sensor detect a magnet
-ISR(INT0_vect)
-{
-    // Code things to do during the interruption, the code should be as short as possible
-    tic_par_tour = tic;
-    tic = 0;
-    first = 0;
-}
+// ISR(INT0_vect)
+// {
+//     // Code things to do during the interruption, the code should be as short as possible
+//     tic_par_tour = tic;
+//     tic = 0;
+//     first = 0;
+// }
 
-ISR(TIMER1_OVF_vect)
-{
-    time_ms++;
-}
+// ISR(TIMER1_OVF_vect)
+// {
+//     time_ms++;
+// }
 
 static volatile char i_rec = 0;
 static volatile int8_t data_h[6] = {0, 0, 0, 0, 0, 0};
