@@ -10,7 +10,7 @@ void init_clock()
     // Set Prescaler to 8
     TCCR1B |= (0 << CS12) | (1 << CS11) | (0 << CS10);
 
-    // Set TOP to 6500
+    // Set TOP to 1624
     OCR1A = 1624;
 
     // Set interruptions on overflow and input capture
