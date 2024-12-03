@@ -4,9 +4,12 @@
 #include "h/hall.h"
 #include "h/new_word.h"
 #include "h/interrupt.h"
+#include "h/clock.h"
 
 void setup()
 {
+    init_clock_aff();
+    init_clock_time();
     SPI_MasterInit();
     hall_sensor_init();
     sei();
@@ -14,7 +17,7 @@ void setup()
 
 void loop()
 {
-    new_word();
+    new_horloge();
 }
 
 int main(void)

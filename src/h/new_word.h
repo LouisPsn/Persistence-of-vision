@@ -7,6 +7,8 @@
 #include "hall.h"
 #include <stdbool.h>
 
+void horloge_in_buffer();
+void new_horloge();
 void new_word();
 
 #endif

@@ -75,4 +75,20 @@ uint8_t ring_buffer_is_full(struct ring_buffer *rb)
     }
 }
 
+void ring_buffer_put_2(struct ring_buffer *rb, uint16_t data, uint16_t position)
+{
+    rb->buffer[position] = data;
+}
 
+
+uint16_t ring_buffer_get_2(struct ring_buffer *rb, int16_t position)
+{
+    uint16_t res = rb->buffer[position];
+    return res;
+}
+
+void clear_buffer(struct ring_buffer *rb){
+    for(int i=0; i<RING_BUFFER_SIZE;i++){
+        ring_buffer_put_2(rb, 0, i);
+    }
+}

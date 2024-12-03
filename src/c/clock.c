@@ -19,18 +19,29 @@ void init_clock_time()
 }
 
 
-void init_clock_routine()
+void init_clock_aff()
 {
     // Set Fast PWM Mode
-    TCCR1A |= (1 << WGM11) | (1 << WGM10);
     TCCR1B |= (1 << WGM13) | (1 << WGM12);
+    TCCR1A |= (1 << WGM11) | (1 << WGM10);
+ 
 
-    // Set Prescaler to 8
+    // Set Prescaler 
     TCCR1B |= (0 << CS12) | (1 << CS11) | (1 << CS10);
 
-    // Set TOP to 1624
-    OCR1A = 40624;
+    // Set TOP to 6500
+    OCR1A = 0xFFFF;
 
     // Set interruptions on overflow and input capture
-    TIMSK1 |= (1 << TOIE1);
+    //TIMSK1 |= (1 << TOIE1);
+
+    //sei();
+}
+
+int16_t read_timer_16(){
+    return TCNT1;
+}
+
+void clear_timer_16(){
+    TCNT1=0;
 }

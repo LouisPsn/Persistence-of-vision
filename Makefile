@@ -60,8 +60,8 @@ test_letter : src/test_letter.c SPI_led old_letter word interrupt
 	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -o build/main.elf src/test_letter.c build/word.elf build/old_letter.elf build/SPI_led.elf build/interrupt.elf
 	$(obj) -O binary build/main.elf build/main.bin
 
-test_new_word : src/test_new_word.c SPI_led new_word interrupt buffer
-	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -o build/main.elf build/SPI_led.elf src/test_new_word.c build/interrupt.elf build/buffer.elf build/new_word.elf
+test_new_word : src/test_new_word.c SPI_led new_word interrupt buffer clock
+	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -o build/main.elf build/SPI_led.elf src/test_new_word.c build/interrupt.elf build/buffer.elf build/new_word.elf build/clock.elf
 	$(obj) -O binary build/main.elf build/main.bin
 
 test_clock : src/test_clock.c
