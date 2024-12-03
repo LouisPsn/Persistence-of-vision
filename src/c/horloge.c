@@ -12,16 +12,16 @@ ISR(INT0_vect)
 // Interrupt function on 8-bit timer overflow
 ISR(TIMER0_COMPA_vect)
 {
-    time_mod++;
+    time_ms++;
 }
 
 void horloge_trigo()
 {
     tic++;
-    sec = (int8_t)(time_mod / 6500);
+    sec = (int8_t)(time_ms / 6500);
     if (sec >= 60)
     {
-        time_mod = 0;
+        time_ms = 0;
         sec = 0;
         min++;
     }
