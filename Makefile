@@ -7,6 +7,9 @@ freq = 13000000
 install :
 	$(dude) -p $(chip) -c usbasp -P /dev/ttyACM0 -U flash:w:build/main.bin
 
+install_test :
+	$(dude) -p $(chip) -c usbasp -P /dev/ttyACM0 -U flash:w:build/pov-demo.bin
+
 bluetooth : src/c/bluetooth.c
 	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -c -o build/bluetooth.elf src/c/bluetooth.c
 

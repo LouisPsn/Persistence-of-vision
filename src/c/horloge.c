@@ -9,20 +9,19 @@ ISR(INT0_vect)
     first = 0;
 }
 
-ISR(TIMER1_OVF_vect)
+// Interrupt function on 8-bit timer overflow
+ISR(TIMER0_COMPA_vect)
 {
-    time_ms++;
+    time_mod++;
 }
-
-
 
 void horloge_trigo()
 {
     tic++;
-    sec = time_ms / 1000;
+    sec = (int8_t)(time_mod / 6500);
     if (sec >= 60)
     {
-        time_ms = 0;
+        time_mod = 0;
         sec = 0;
         min++;
     }
@@ -36,7 +35,7 @@ void horloge_trigo()
         heures = heures - 12;
     }
 
-    if (!first == 0)
+    if (!first)
     {
         if (tic_par_tour - tic <= (int)(/*tic_par_tour/2 + */ sec * tic_par_tour / 60))
         { // rond extérieur, aiguille des secondes

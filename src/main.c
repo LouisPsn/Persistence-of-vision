@@ -12,14 +12,14 @@
 // ISR(INT0_vect)
 // {
 //     // Code things to do during the interruption, the code should be as short as possible
-//     first = 0;
 //     tic_par_tour = tic;
 //     tic = 0;
+//     first = 0;
 // }
 
-// ISR(TIMER1_OVF_vect)
+// ISR(TIMER0_COMPA_vect)
 // {
-//     time_ms++;
+//     time_mod++;
 // }
 
 static volatile char i_rec = 0;
@@ -42,33 +42,30 @@ void main()
     USART_Init(MYUBRR);
     SPI_MasterInit();
     hall_sensor_init();
-    init_clock();
+    init_clock_time();
     sei();
 
     while (1)
     {
-        if (time_ms % 1000 == 0)
-        {
-            // transmit_number(heures);
-            // USART_Transmit(' ');
-            // transmit_number(min);
-            // USART_Transmit(' ');
-            // transmit_number(sec);
-            // USART_Transmit('\n');
+        // if (time_mod != 0 && time_mod % 3250 == 0)
+        // {
+        // transmit_number(heures);
+        // USART_Transmit(' ');
+        // transmit_number(min);
+        // USART_Transmit(' ');
+        // transmit_number(first);
+        // USART_Transmit('\n');
 
-            // transmit_number(first);
-            // USART_Transmit('\n');
-
-            // USART_Transmit(data_h[0] + 48);
-            // USART_Transmit(data_h[1] + 48);
-            // USART_Transmit(' ');
-            // USART_Transmit(data_h[2] + 48);
-            // USART_Transmit(data_h[3] + 48);
-            // USART_Transmit(' ');
-            // USART_Transmit(data_h[4] + 48);
-            // USART_Transmit(data_h[5] + 48);
-            // USART_Transmit('\n');
-        }
+        // USART_Transmit(data_h[0] + 48);
+        // USART_Transmit(data_h[1] + 48);
+        // USART_Transmit(' ');
+        // USART_Transmit(data_h[2] + 48);
+        // USART_Transmit(data_h[3] + 48);
+        // USART_Transmit(' ');
+        // USART_Transmit(data_h[4] + 48);
+        // USART_Transmit(data_h[5] + 48);
+        // USART_Transmit('\n');
+        // }
         // heures = data_h[0] * 10 + data_h[1];
         // min = data_h[2] * 10 + data_h[3];
         // sec = data_h[4] * 10 + data_h[5];
