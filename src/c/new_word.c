@@ -31,16 +31,16 @@ ISR(INT0_vect)
 ISR(TIMER0_COMPA_vect)
 {
     time_ms++;
-    if (time_ms == 6500)
+    if (time_ms >= 6500)
     {
         time_ms = 0;
-        if (sec == 59)
+        if (sec >= 59)
         {
             sec = 0;
-            if (min == 59)
+            if (min >= 59)
             {
                 min = 0;
-                if (heures == 11)
+                if (heures >= 11)
                 {
                     heures = 0;
                 }
