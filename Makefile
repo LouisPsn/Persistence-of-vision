@@ -68,6 +68,6 @@ test_clock : src/test_clock.c
 	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -o build/main.elf src/test_clock.c build/clock.elf build/bluetooth.elf
 	$(obj) -O binary build/main.elf build/main.bin
 
-main : src/main.c horloge clock SPI_led interrupt hall bluetooth buffer clock interrupt
-	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -o  build/main.elf src/main.c build/bluetooth.elf build/horloge.elf build/SPI_led.elf build/hall.elf build/buffer.elf build/clock.elf build/interrupt.elf
+main : src/main.c clock SPI_led interrupt bluetooth buffer clock interrupt new_word
+	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -o  build/main.elf src/main.c build/bluetooth.elf build/SPI_led.elf build/buffer.elf build/clock.elf build/interrupt.elf build/new_word.elf
 	$(obj) -O binary build/main.elf build/main.bin

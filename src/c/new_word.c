@@ -50,6 +50,12 @@ ISR(TIMER0_COMPA_vect)
 }
 */
 
+void setup_hour(int8_t h, int8_t m, int8_t s){
+    sec=s;
+    min=m;
+    heures=h;
+}
+
 void incr_hour()
 {
     if (sec >= 59)

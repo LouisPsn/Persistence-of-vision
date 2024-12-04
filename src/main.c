@@ -1,7 +1,6 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
-#include "h/horloge.h"
 #include "h/clock.h"
 #include "h/buffer.h"
 #include "h/SPI_led.h"
@@ -41,9 +40,8 @@ void setup()
     init_clock_aff();
     sei();
 
-    sec = 30;
-    min = 25;
-    heures = 3;
+    setup_hour(3, 25, 30);
+
 }
 
 void loop()
