@@ -1,5 +1,5 @@
 #include "../h/horloge.h"
-
+/*
 // // Generate an interrupt when the hall sensor detect a magnet
 ISR(INT0_vect)
 {
@@ -37,15 +37,15 @@ void horloge_trigo()
 
     if (!first)
     {
-        if (tic_par_tour - tic <= (int)(/*tic_par_tour/2 + */ sec * tic_par_tour / 60))
+        if (tic_par_tour - tic <= (int)(/*tic_par_tour/2 +  sec * tic_par_tour / 60))
         { // rond extérieur, aiguille des secondes
             SPI_MasterTransmit_us(0b1000000000000000, 10);
         }
-        if (tic_par_tour - tic == (int)(/*tic_par_tour/2 + */ heures * tic_par_tour / 12))
+        if (tic_par_tour - tic == (int)(/*tic_par_tour/2 + heures * tic_par_tour / 12))
         { // la petite aiguille, aiguille des heurs
             SPI_MasterTransmit_us(0b0000000011111111, 10);
         }
-        if (tic_par_tour - tic == (int)(/*tic_par_tour/2 + */ min * tic_par_tour / 60))
+        if (tic_par_tour - tic == (int)(/*tic_par_tour/2 +  min * tic_par_tour / 60))
         { // la grande aiguille, aiguille des minutes
             SPI_MasterTransmit_us(0b1111111111111110, 10);
         }
@@ -84,11 +84,11 @@ void horloge_2()
         }
         if (first == 0)
         {
-            if (tic == (int)(/*tic_par_tour/2 + */ min * tic_par_tour / 60))
+            if (tic == (int)(/*tic_par_tour/2 +  min * tic_par_tour / 60))
             { // la grande aiguille
                 SPI_MasterTransmit_us(0xFFFF, 2);
             }
-            else if (tic == (int)(/*tic_par_tour/2 + */ sec * tic_par_tour / 60))
+            else if (tic == (int)(/*tic_par_tour/2 +  sec * tic_par_tour / 60))
             { // la petite aiguille
                 SPI_MasterTransmit_us(0x80FF, 2);
             }
@@ -111,3 +111,4 @@ void test_horloge()
         SPI_MasterTransmit_ms(0x0000, 1);
     }
 }
+*/
