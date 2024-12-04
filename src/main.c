@@ -10,75 +10,72 @@
 #include "h/interrupt.h"
 #include "h/clock.h"
 
+//volatile char state = 0;
+volatile bool need_load_buffer = false;
+volatile bool need_incr_hour = false;
 
-
-static volatile char i_rec = 0;
-static volatile int8_t data_h[6] = {0, 0, 0, 0, 0, 0};
-
-ISR(USART_RX_vect)
+ISR(INT0_vect)
 {
-    data_h[i_rec] = USART_Receive();
-    data_h[i_rec] -= 48;
+    tic_par_tour = read_timer_16();
+    clear_timer_16();
+    first = 0;
+    position = 0;
+}
 
-    i_rec++;
-    if (i_rec > 5)
+ISR(TIMER0_COMPA_vect)
+{
+    time_ms++;
+    if (time_ms >= 6500)
     {
-        i_rec = 0;
+        time_ms = 0;
+        need_incr_hour = true;
+        need_load_buffer = true;
     }
 }
 
-void main()
+void setup()
 {
-    USART_Init(MYUBRR);
     SPI_MasterInit();
     hall_sensor_init();
     init_clock_time();
     init_clock_aff();
     sei();
 
-    while (1)
-    {
+    sec = 30;
+    min = 25;
+    heures = 3;
+}
 
-        new_horloge();
+void loop()
+{
+    tic = read_timer_16();
+    if (!first)
+    {
+        if (((position) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (position + 1) * (tic_par_tour / RING_BUFFER_SIZE)))
+        {
+            SPI_MasterTransmit_us(ring_buffer_get_2(&rb, position), 10); //(int) time_ms_per_turn/(RING_BUFFER_SIZE)
+            position++;
+        }
+
+        if (need_incr_hour)
+        {
+            incr_hour();
+            need_incr_hour=false;
+        }
+
+        if (need_load_buffer)
+        {
+            horloge_in_buffer();
+            need_load_buffer = false;
+        }
     }
 }
 
-// static volatile int16_t position = 1;
-// static struct ring_buffer rb;
-
-// Generate an interrupt when the hall sensor detect a magnet
-// ISR(INT0_vect)
-// {
-//     // Code things to do during the interruption, the code should be as short as possible
-//     tic_par_tour = tic;
-//     tic = 0;
-//     first = 0;
-// }
-
-// ISR(TIMER0_COMPA_vect)
-// {
-//     time_mod++;
-// }
-
-        // if (time_mod != 0 && time_mod % 3250 == 0)
-        // {
-        // transmit_number(heures);
-        // USART_Transmit(' ');
-        // transmit_number(min);
-        // USART_Transmit(' ');
-        // transmit_number(first);
-        // USART_Transmit('\n');
-
-        // USART_Transmit(data_h[0] + 48);
-        // USART_Transmit(data_h[1] + 48);
-        // USART_Transmit(' ');
-        // USART_Transmit(data_h[2] + 48);
-        // USART_Transmit(data_h[3] + 48);
-        // USART_Transmit(' ');
-        // USART_Transmit(data_h[4] + 48);
-        // USART_Transmit(data_h[5] + 48);
-        // USART_Transmit('\n');
-        // }
-        // heures = data_h[0] * 10 + data_h[1];
-        // min = data_h[2] * 10 + data_h[3];
-        // sec = data_h[4] * 10 + data_h[5];
+void main()
+{
+    setup();
+    while (1)
+    {
+        loop();
+    }
+}
