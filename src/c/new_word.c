@@ -50,6 +50,34 @@ ISR(TIMER0_COMPA_vect)
 }
 */
 
+void incr_hour()
+{
+    if (sec >= 59)
+    {
+        sec = 0;
+        if (min >= 59)
+        {
+            min = 0;
+            if (heures >= 11)
+            {
+                heures = 0;
+            }
+            else
+            {
+                heures++;
+            }
+        }
+        else
+        {
+            min++;
+        }
+    }
+    else
+    {
+        sec++;
+    }
+}
+
 void horloge_in_buffer()
 {
     clear_buffer(&rb);

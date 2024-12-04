@@ -21,6 +21,7 @@ volatile long long last_time_ms = 0;
 volatile long long time_ms_per_turn = 0;
 
 
+void incr_hour();
 void horloge_in_buffer();
 void new_horloge();
 void new_word();
