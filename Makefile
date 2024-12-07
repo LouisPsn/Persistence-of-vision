@@ -40,6 +40,9 @@ SPI_led : src/c/SPI_led.c
 interrupt : src/c/interrupt.c
 	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -c -o build/interrupt.elf src/c/interrupt.c
 
+digit : src/c/digit_horloge.c
+	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -c -o build/digit_horloge.elf src/c/digit_horloge.c
+
 test_led : src/test_led.c
 	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -o build/main.elf src/test_led.c
 	$(obj) -O binary build/main.elf build/main.bin
@@ -68,6 +71,10 @@ test_clock : src/test_clock.c
 	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -o build/main.elf src/test_clock.c build/clock.elf build/bluetooth.elf
 	$(obj) -O binary build/main.elf build/main.bin
 
+test_digit : src/test_digit.c clock SPI_led interrupt bluetooth buffer clock interrupt new_word digit
+	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -o build/main.elf src/test_digit.c build/digit_horloge.elf build/bluetooth.elf build/SPI_led.elf build/buffer.elf build/clock.elf build/interrupt.elf build/new_word.elf
+	$(obj) -O binary build/main.elf build/main.bin
+
 main : src/main.c clock SPI_led interrupt bluetooth buffer clock interrupt new_word
-	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -o  build/main.elf src/main.c build/bluetooth.elf build/SPI_led.elf build/buffer.elf build/clock.elf build/interrupt.elf build/new_word.elf
+	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -o  build/main.elf src/main.c build/bluetooth.elf build/SPI_led.elf build/buffer.elf build/clock.elf build/interrupt.elf build/new_word.elf build/digit_horloge.elf
 	$(obj) -O binary build/main.elf build/main.bin
