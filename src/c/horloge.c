@@ -15,6 +15,13 @@ ISR(TIMER0_COMPA_vect)
     time_ms++;
 }
 
+void set_time(int8_t h, int8_t m, int8_t s)
+{
+    heures = h;
+    min = m;
+    sec = s;
+}
+
 void horloge_trigo()
 {
     tic++;
