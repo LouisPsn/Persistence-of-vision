@@ -38,10 +38,8 @@ void setup()
     hall_sensor_init();
     init_clock_time();
     init_clock_aff();
-    sei();
-
     setup_hour(3, 25, 30);
-
+    sei();
 }
 
 void loop()
