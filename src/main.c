@@ -45,12 +45,13 @@ void setup()
     init_clock_time();
     init_clock_aff();
     setup_hour(3, 25, 30);
+    load_mario();
     sei();
 }
 
 void loop()
 {
-    tic = read_timer_16();
+    // tic = read_timer_16();
     if (!first)
     {
         if (state == 0b00)
@@ -61,22 +62,22 @@ void loop()
                 position++;
             }
 
-            if (need_incr_hour)
-            {
-                incr_hour();
-                need_incr_hour = false;
-            }
+            // if (need_incr_hour)
+            // {
+            //     incr_hour();
+            //     need_incr_hour = false;
+            // }
 
-            if (need_load_buffer)
-            {
-                horloge_in_buffer();
-                need_load_buffer = false;
-            }
+            // if (need_load_buffer)
+            // {
+            //     horloge_in_buffer();
+            //     need_load_buffer = false;
+            // }
         }
         else if (state == 0b01)
         {
-            
         }
+        load_mario();
     }
 }
 
