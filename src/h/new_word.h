@@ -26,4 +26,6 @@ void horloge_in_buffer();
 void new_horloge();
 void new_word();
 
+void load_mario();
+
 #endif
