@@ -73,10 +73,6 @@ void loop()
                 need_load_buffer = false;
             }
         }
-        else if (state == 0b01)
-        {
-            
-        }
     }
 }
 
