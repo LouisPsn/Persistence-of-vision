@@ -11,10 +11,8 @@
 
 volatile char state = 0;
 /*
-
 state = 0b00 : horloge in buffer
 state = 0b01 : old letter
-
 */
 volatile bool need_load_buffer = false;
 volatile bool need_incr_hour = false;
@@ -73,9 +71,6 @@ void loop()
             //     horloge_in_buffer();
             //     need_load_buffer = false;
             // }
-        }
-        else if (state == 0b01)
-        {
         }
         load_mario();
     }
