@@ -9,7 +9,13 @@
 #include "h/interrupt.h"
 #include "h/clock.h"
 
-//volatile char state = 0;
+volatile char state = 0;
+/*
+
+state = 0b00 : horloge in buffer
+state = 0b01 : old letter
+
+*/
 volatile bool need_load_buffer = false;
 volatile bool need_incr_hour = false;
 
@@ -47,22 +53,29 @@ void loop()
     tic = read_timer_16();
     if (!first)
     {
-        if (((position) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (position + 1) * (tic_par_tour / RING_BUFFER_SIZE)))
+        if (state == 0b00)
         {
-            SPI_MasterTransmit_us(ring_buffer_get_2(&rb, position), 10); //(int) time_ms_per_turn/(RING_BUFFER_SIZE)
-            position++;
-        }
+            if (((position) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (position + 1) * (tic_par_tour / RING_BUFFER_SIZE)))
+            {
+                SPI_MasterTransmit_us(ring_buffer_get_2(&rb, position), 10); //(int) time_ms_per_turn/(RING_BUFFER_SIZE)
+                position++;
+            }
 
-        if (need_incr_hour)
-        {
-            incr_hour();
-            need_incr_hour=false;
-        }
+            if (need_incr_hour)
+            {
+                incr_hour();
+                need_incr_hour = false;
+            }
 
-        if (need_load_buffer)
+            if (need_load_buffer)
+            {
+                horloge_in_buffer();
+                need_load_buffer = false;
+            }
+        }
+        else if (state == 0b01)
         {
-            horloge_in_buffer();
-            need_load_buffer = false;
+            
         }
     }
 }
