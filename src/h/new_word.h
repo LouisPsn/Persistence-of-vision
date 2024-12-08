@@ -6,19 +6,23 @@
 #include "SPI_led.h"
 #include "hall.h"
 #include <stdbool.h>
+#include <stdlib.h>
 
 volatile static int16_t tic_par_tour = 0;
 volatile static int16_t tic = 0;
 volatile static char first = 1;
 volatile static int16_t position = 0;
-struct ring_buffer rb;
+static struct ring_buffer rb;
 
 volatile static int8_t sec = 0;
 volatile static int8_t min = 0;
 volatile static int8_t heures = 0;
 
 volatile static long long last_time_ms = 0;
-volatile static long long time_ms_per_turn = 0;
+volatile static long long time_us_per_turn = 0;
+
+volatile static bool need_load_buffer = false;
+volatile static bool need_incr_hour = false;
 
 void setup_hour(int8_t h, int8_t m, int8_t s);
 void incr_hour();
@@ -27,5 +31,9 @@ void new_horloge();
 void new_word();
 
 void load_mario();
+void load_croix_occitane();
+void load_chirac();
+
+void display_buffer();
 
 #endif

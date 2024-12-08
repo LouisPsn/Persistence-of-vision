@@ -3,12 +3,12 @@ from PIL import Image
 
 
 def print_tab(values):
-    f = open("buffer.txt", "a")
+    f = open("buffer.txt", "w")
     
     i = 0
     for value in values:
         f.write("ring_buffer_put_2(&rb, 0b")
-        for j in range(16):
+        for j in range(15, -1, -1):
             f.write(str(int(value[j])))    
         f.write(", ")
         f.write(str(i))
@@ -17,25 +17,38 @@ def print_tab(values):
     
 
 
-def main(path="/home/louis/Documents/3A/Système Embarquée/Projet/Persistence-of-vision/photo_2024-12-02_13-59-21.jpg"):
+def main(path="photo_2024-12-02_13-59-21.jpg"):
     
-    number_of_frame = 60
+    number_of_frame = 100
 
     img = Image.open(path)
     numpy_data = np.asarray(img, dtype=np.uint16)
 
     shape = numpy_data.shape
 
-    middle = (int(numpy_data.shape[0]/2), int(numpy_data.shape[0]/2))
+    middle = (int(numpy_data.shape[0]/2), int(numpy_data.shape[1]/2))
     
-    numpy_binary = np.zeros((shape[0], shape[1]))
 
-    for i in range(shape[0]):
-        for j in range(shape[1]):
-            if (numpy_data[i][j][0] + numpy_data[i][j][1] + numpy_data[i][j][2])/3 > 255/2:
-                numpy_binary[i][j] = 1
-            else:
-                numpy_binary[i][j] = 0
+    if len(shape) > 2:
+        numpy_binary = np.zeros((shape[0], shape[1]))
+
+        for i in range(shape[0]):
+            for j in range(shape[1]):
+                if (numpy_data[i][j][0] + numpy_data[i][j][1] + numpy_data[i][j][2])/3 > 255/1.5:
+                    numpy_binary[i][j] = 1
+                else:
+                    numpy_binary[i][j] = 0
+
+    else:
+        numpy_binary = numpy_data
+        
+        shape = numpy_binary.shape
+        for i in range(shape[0]):
+            for j in range(shape[1]):
+                if numpy_binary[i][j] == 2:
+                    numpy_binary[i][j] = 0
+
+    # print(numpy_binary)
 
     values = np.zeros((number_of_frame, 16))
 
@@ -47,10 +60,11 @@ def main(path="/home/louis/Documents/3A/Système Embarquée/Projet/Persistence-o
 
     for theta in theta_array:
         for i in range(16):
-            x = r[i]*shape[0]/2*np.cos(theta)
-            y = r[i]*shape[1]/2*np.sin(theta)
-
-            values[counter][i] = int(numpy_binary[int(y) + middle[0]][-int(x) + middle[0]])
+            x = int(r[i]*shape[0]/2*np.cos(theta))
+            y = int(-r[i]*shape[1]/2*np.sin(theta))
+            
+            values[counter][i] = numpy_binary[middle[0] - 1 - x][middle[1] - 1 + y]
+        
         counter += 1
 
     print_tab(values)

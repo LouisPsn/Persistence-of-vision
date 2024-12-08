@@ -5,7 +5,7 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
-#define RING_BUFFER_SIZE 60
+#define RING_BUFFER_SIZE 100
 
 // typedef ring_buffer ring_buffer;
 struct ring_buffer

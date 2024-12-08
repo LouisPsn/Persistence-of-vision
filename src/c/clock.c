@@ -29,7 +29,7 @@ void init_clock_aff()
     // Set Prescaler 
     TCCR1B |= (0 << CS12) | (1 << CS11) | (1 << CS10);
 
-    // Set TOP to 6500
+    // Set TOP to 65535
     OCR1A = 0xFFFF;
 
     // Set interruptions on overflow and input capture
