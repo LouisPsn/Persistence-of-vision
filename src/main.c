@@ -10,19 +10,30 @@
 #include "h/clock.h"
 #include <string.h>
 #include "h/bluetooth.h"
+#include "h/word.h"
+#include "h/old_letter.h"
 
 #define BUFFER_SIZE 60
 
 volatile char state = 0;
 /*
-state = 0b00 : horloge in buffer
+state = 0b00 : buffer, horloge and
 state = 0b01 : old letter
 */
+
 volatile bool need_load_buffer = false;
 volatile bool need_incr_hour = false;
 
 // static volatile int16_t position = 1;
 static struct ring_buffer rb_receive;
+
+// boolean to check if data is received
+static volatile char data_received = 0;
+
+char word_received[20] = {0};
+
+char command_buffer[BUFFER_SIZE];
+uint8_t command_index = 0;
 
 ISR(INT0_vect)
 {
@@ -43,26 +54,20 @@ ISR(TIMER0_COMPA_vect)
     }
 }
 
-// boolean to check if data is received
-static volatile char data_received = 0;
-
-char command_buffer[BUFFER_SIZE];
-uint8_t command_index = 0;
-
 ISR(USART_RX_vect)
 {
     ring_buffer_put(&rb_receive, USART_Receive());
-
 }
 
 void parse_command(char *command)
 {
     if (strncmp(command, "set ", 4) == 0 && strlen(command) == 11)
     {
+        state = 0b00;
         //  convert the string to int
-        int8_t h = (command[4]-48)*10 + (command[5]-48);
-        int8_t m = (command[6]-48)*10 + (command[7]-48);
-        int8_t s = (command[8]-48)*10 + (command[9]-48);
+        int8_t h = (command[4] - 48) * 10 + (command[5] - 48);
+        int8_t m = (command[6] - 48) * 10 + (command[7] - 48);
+        int8_t s = (command[8] - 48) * 10 + (command[9] - 48);
         setup_hour(h, m, s);
         transmit_txt("time set", 8);
     }
@@ -71,10 +76,23 @@ void parse_command(char *command)
         // display the word
         transmit_txt(command + 5, strlen(command) - 5);
         // TODO
+        state = 0b01;
+        for (int i = 0; i < strlen(word_received); i++)
+        {
+            if (i < strlen(command) - 5)
+            {
+                word_received[i] = command[i + 5];
+            }
+            else{
+                word_received[i] = 0;
+            }
+        }
+        transmit_txt(word_received, strlen(command) - 5);
     }
     // give time
     else if (strncmp(command, "time", 4) == 0)
     {
+        state = 0b00;
         char time[8];
         // TODO
         // transmit_txt(time, 8);
@@ -129,7 +147,7 @@ void loop()
     }
     if (!first)
     {
-        
+
         if (state == 0b00)
         {
             if (((position) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (position + 1) * (tic_par_tour / RING_BUFFER_SIZE)))
@@ -149,8 +167,12 @@ void loop()
                 horloge_in_buffer();
                 need_load_buffer = false;
             }
+            // load_mario();
         }
-        //load_mario();
+        if (state == 0b01)
+        {
+            print_word(word_received, tic, tic_par_tour, 55);
+        }
     }
 }
 
