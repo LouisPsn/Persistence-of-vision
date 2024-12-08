@@ -19,9 +19,6 @@ clock : src/c/clock.c
 hall : src/c/hall.c
 	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -c -o build/hall.elf src/c/hall.c
 
-horloge : src/c/horloge.c
-	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -c -o build/horloge.elf src/c/horloge.c
-
 old_letter : src/c/old_letter.c
 	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -c -o build/old_letter.elf src/c/old_letter.c
 
@@ -55,10 +52,6 @@ test_spi : src/test_SPI.c SPI_led
 	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -o build/main.elf src/test_SPI.c build/SPI_led.elf
 	$(obj) -O binary build/main.elf build/main.bin
 
-test_horloge : src/test_horloge.c SPI_led interrupt horloge hall clock
-	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -o build/main.elf src/test_horloge.c build/SPI_led.elf build/interrupt.elf build/horloge.elf build/hall.elf build/clock.elf
-	$(obj) -O binary build/main.elf build/main.bin
-
 test_letter : src/test_letter.c SPI_led old_letter word interrupt
 	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -o build/main.elf src/test_letter.c build/word.elf build/old_letter.elf build/SPI_led.elf build/interrupt.elf
 	$(obj) -O binary build/main.elf build/main.bin
@@ -75,6 +68,6 @@ test_digit : src/test_digit.c clock SPI_led interrupt bluetooth buffer clock int
 	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -o build/main.elf src/test_digit.c build/digit_horloge.elf build/bluetooth.elf build/SPI_led.elf build/buffer.elf build/clock.elf build/interrupt.elf build/new_word.elf
 	$(obj) -O binary build/main.elf build/main.bin
 
-main : src/main.c clock SPI_led interrupt bluetooth buffer clock interrupt new_word digit
-	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -o  build/main.elf src/main.c build/bluetooth.elf build/SPI_led.elf build/buffer.elf build/clock.elf build/interrupt.elf build/new_word.elf build/digit_horloge.elf
+main : src/main.c clock SPI_led interrupt bluetooth buffer new_word digit word old_letter
+	$(avr) -mmcu=$(chip) -DF_CPU=$(freq) -Os -o  build/main.elf src/main.c build/clock.elf build/SPI_led.elf build/interrupt.elf build/bluetooth.elf build/buffer.elf build/new_word.elf build/digit_horloge.elf build/word.elf build/old_letter.elf
 	$(obj) -O binary build/main.elf build/main.bin

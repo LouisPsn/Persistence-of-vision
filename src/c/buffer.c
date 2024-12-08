@@ -62,10 +62,10 @@ uint8_t ring_buffer_available_bytes(struct ring_buffer *rb)
     return rb->available;
 }
 
-// Indique si le buffer circulaire est plein
+// Indique si le buffer circulaire est plein, 1 si plein, 0 sinon
 uint8_t ring_buffer_is_full(struct ring_buffer *rb)
 {
-    if (rb->available == 0)
+    if ((rb->write == (rb->read)-1) || (rb->write == RING_BUFFER_SIZE - 1 && rb->read == 0))
     {
         return 0;
     }
@@ -91,4 +91,8 @@ void clear_buffer(struct ring_buffer *rb){
     for(int i=0; i<RING_BUFFER_SIZE;i++){
         ring_buffer_put_2(rb, 0, i);
     }
+}
+uint8_t rb_has_data(struct ring_buffer *rb)
+{
+    return rb->write != rb->read;
 }

@@ -12,6 +12,4 @@
 
 void print_word(char *str, int16_t tic, int16_t tic_par_tour, int16_t offset);
 
-void word(char *str);
-
 #endif

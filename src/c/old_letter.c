@@ -1,473 +1,473 @@
 #include "../h/old_letter.h"
 
 void A(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0880,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0880,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0880,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0880,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0880,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0880,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
 }
 
 void B(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0090,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0090,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0090,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0090,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0090,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0090,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x00F0,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x00F0,30);
     }
 }
 
 void C(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0810,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0810,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0810,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0810,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0810,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0810,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0810,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0810,30);
     }
 }
 
 void D(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x00F0,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x00F0,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0090,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0090,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0090,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0090,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0090,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0090,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
 }
 
 void E(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0910,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0910,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0910,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0910,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0910,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0910,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0810,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0810,30);
     }
 }
 
 void F(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0900,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0900,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0900,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0900,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0900,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0900,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0800,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0800,30);
     }
 }
 
 void G(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0910,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0910,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0910,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0910,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0910,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0910,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x09F0,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x09F0,30);
     }
 }
 
 
 
 void H(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0100,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0100,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0100,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0100,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0100,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0100,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
 }
 
 void I(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0810,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0810,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0810,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0810,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0810,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0810,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0810,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0810,30);
     }
 }
 
 void J(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0810,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0810,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0810,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0810,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0800,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0800,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0800,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0800,30);
     }
 }
 
 void K(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0180,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0180,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0240,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0240,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0420,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0420,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0810,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0810,30);
     }
 }
 
 
 void L(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0010,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0010,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0010,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0010,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0010,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0010,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0010,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0010,30);
     }
 }
 
 void M(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0400,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0400,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0200,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0200,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x00400,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x00400,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
 }
 
 void N(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0600,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0600,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0180,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0180,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0060,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0060,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
 }
 
 void O(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0810,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0810,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0810,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0810,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0810,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0810,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
 }
 
 void P(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0900,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0900,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0900,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0900,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0900,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0900,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0F00,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0F00,30);
     }
 }
 
 void Q(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0F00,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0F00,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0900,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0900,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0900,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0900,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0900,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0900,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
 }
 
 void R(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0980,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0980,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0940,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0940,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0920,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0920,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0F10,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0F10,30);
     }
 }
 
 void S(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0F10,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0F10,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0910,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0910,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0910,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0910,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0910,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0910,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x09F0,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x09F0,30);
     }
 }
 
 void T(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0800,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0800,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0800,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0800,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0800,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0800,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0800,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0800,30);
     }
 }
 
 void U(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0010,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0010,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0010,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0010,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0010,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0010,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
 }
 
 void V(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0E00,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0E00,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x01E0,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x01E0,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0010,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0010,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x01E0,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x01E0,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0E00,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0E00,30);
     }
 }
 
 void W(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0020,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0020,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0040,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0040,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0020,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0020,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0FF0,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0FF0,30);
     }
 }
 
 void X(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0C30,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0C30,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x03C0,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x03C0,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x03C0,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x03C0,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x00C30,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x00C30,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0000,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0000,30);
     }
 }
 
 void Y(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0C30,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0C30,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x03C0,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x03C0,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0300,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0300,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0C00,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0C00,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0000,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0000,30);
     }
 }
 
 void Z(int16_t tic, int16_t tic_par_tour, int16_t offset){
-    if(tic== (int) (offset)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0830,10);
+    if(((offset-1) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0830,30);
     }
-    else if(tic==(int) (offset-1)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x00870,10);
+    else if(((offset-2) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-1) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x00870,30);
     }
-    else if(tic==(int) (offset-2)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0990,10);
+    else if(((offset-3) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-2) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0990,30);
     }
-    else if(tic==(int) (offset-3)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0E10,10);
+    else if(((offset-4) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-3) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0E10,30);
     }
-    else if(tic==(int) (offset-4)*(tic_par_tour/60)){ 
-        SPI_MasterTransmit_us(0x0C10,10);
+    else if(((offset-5) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (offset-4) * (tic_par_tour / RING_BUFFER_SIZE))){ 
+        SPI_MasterTransmit_us(0x0C10,30);
     }
 }
 

@@ -47,4 +47,6 @@ uint16_t ring_buffer_get_2(struct ring_buffer *rb, int16_t position);
 
 void clear_buffer(struct ring_buffer *rb);
 
+uint8_t rb_has_data(struct ring_buffer *rb);
+
 #endif

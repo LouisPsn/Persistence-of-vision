@@ -29,9 +29,9 @@ void USART_Transmit(unsigned char data)
     UDR0 = data;
 }
 
-void transmit_txt(unsigned char* txt, int lenght)
+void transmit_txt(unsigned char* txt, int length)
 {
-    for(int i; i < lenght; i++) {
+    for(int i; i < length; i++) {
         USART_Transmit(txt[i]);
     }
 }

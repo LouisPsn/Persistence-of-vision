@@ -1,54 +1,4 @@
-#include "../h/clock.h"
 #include "../h/new_word.h"
-#include "../h/buffer.h"
-
-/*
-// Generate an interrupt when the hall sensor detect a magnet
-ISR(INT0_vect)
-{
-    // Code things to do during the interruption, the code should be as short as possible
-    tic_par_tour = read_timer_16();
-    clear_timer_16();
-    first = 0;
-    position = 0;
-    // time_ms_per_turn = time_ms - last_time_ms;
-    // last_time_ms = time_ms;
-    horloge_in_buffer();
-}
-
-ISR(TIMER0_COMPA_vect)
-{
-    time_ms++;
-    if (time_ms >= 6500)
-    {
-        time_ms = 0;
-        if (sec >= 59)
-        {
-            sec = 0;
-            if (min >= 59)
-            {
-                min = 0;
-                if (heures >= 11)
-                {
-                    heures = 0;
-                }
-                else
-                {
-                    heures++;
-                }
-            }
-            else
-            {
-                min++;
-            }
-        }
-        else
-        {
-            sec++;
-        }
-    }
-}
-*/
 
 ISR(INT0_vect)
 {
@@ -56,7 +6,7 @@ ISR(INT0_vect)
     clear_timer_16();
     first = 0;
     position = 0;
-    time_us_per_turn = tic_par_tour * 1000000 / 203125*3;
+    time_us_per_turn = tic_par_tour * 1000000 / 203125 * 2;
 }
 
 ISR(TIMER0_COMPA_vect)
@@ -67,6 +17,91 @@ ISR(TIMER0_COMPA_vect)
         time_ms = 0;
         need_incr_hour = true;
         need_load_buffer = true;
+    }
+}
+
+ISR(USART_RX_vect)
+{
+    ring_buffer_put(&rb_receive, USART_Receive());
+}
+
+void parse_command(char *command)
+{
+    USART_Transmit('I');
+    if (strncmp(command, "set ", 4) == 0 && strlen(command) == 11)
+    {
+        state = 0b00;
+        //  convert the string to int
+        int8_t h = (command[4] - 48) * 10 + (command[5] - 48);
+        int8_t m = (command[6] - 48) * 10 + (command[7] - 48);
+        int8_t s = (command[8] - 48) * 10 + (command[9] - 48);
+        setup_hour(h, m, s);
+        transmit_txt("time set", 8);
+    }
+    else if (strncmp(command, "word ", 5) == 0 && strlen(command) > 5)
+    {
+        // display the word
+        transmit_txt(command + 5, strlen(command) - 5);
+        state = 0b01;
+        for (int i = 0; i < strlen(word_received); i++)
+        {
+            if (i < strlen(command) - 5)
+            {
+                word_received[i] = command[i + 5];
+            }
+            else
+            {
+                word_received[i] = 0;
+            }
+        }
+        transmit_txt(word_received, strlen(command) - 5);
+    }
+    else if (strncmp(command, "image ", 6) == 0 && strlen(command) > 6)
+    {
+        state = 0b11;
+        state_img = 0;
+        // if (command[7] == 'm') {
+        //     state_img = 0;
+        // }
+        // if (command[7] == 'o') {
+        //     state_img = 0;
+        // }
+        // if (command[7] == 'c') {
+        //     state_img = 0;
+        // }
+    }
+    // give time
+    else if (strncmp(command, "time", 4) == 0)
+    {
+        state = 0b00;
+        char time[8];
+        horloge_in_buffer();
+        // TODO
+        // transmit_txt(time, 8);
+    }
+    else
+    {
+        transmit_txt("command not found", 17);
+    }
+}
+
+void parse_data()
+{
+    while (rb_has_data(&rb_receive))
+    {
+        char c = ring_buffer_get(&rb_receive);
+        if (c == '\n')
+        {
+            command_buffer[command_index] = '\0';
+            command_index = 0;
+            // call the function to parse the command
+            parse_command(command_buffer);
+        }
+        else
+        {
+            command_buffer[command_index] = c;
+            command_index++;
+        }
     }
 }
 
@@ -110,15 +145,15 @@ void horloge_in_buffer()
     clear_buffer(&rb);
     for (int i = 0; i < RING_BUFFER_SIZE; i++)
     {
-        if (i == (int)sec)
+        if (i == (int)RING_BUFFER_SIZE - sec * RING_BUFFER_SIZE / 60)
         {
             ring_buffer_put_2(&rb, 0b1111111111111111, i);
         }
-        else if (i == (int)min)
+        else if (i == (int)RING_BUFFER_SIZE - min * RING_BUFFER_SIZE / 60)
         {
             ring_buffer_put_2(&rb, 0b0000111111111110, i);
         }
-        else if (i == (int)heures * 6)
+        else if (i == (int)RING_BUFFER_SIZE - heures / RING_BUFFER_SIZE / 12)
         {
             ring_buffer_put_2(&rb, 0b0000000011111111, i);
         }
@@ -486,26 +521,49 @@ void load_chirac()
 
 void display_buffer()
 {
+
     tic = read_timer_16();
+    if (rb_has_data(&rb_receive))
+    {
+        parse_data();
+    }
     if (!first)
     {
-        if (((position) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (position + 1) * (tic_par_tour / RING_BUFFER_SIZE)))
-        {
-            SPI_MasterTransmit_us(ring_buffer_get_2(&rb, position), time_us_per_turn / (RING_BUFFER_SIZE)); //(int) time_ms_per_turn/(RING_BUFFER_SIZE)
-            position++;
-        }
 
-        if (need_incr_hour)
+        if (state == 0b00)
         {
-            incr_hour();
-            need_incr_hour = false;
-        }
+            if (((position) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (position + 1) * (tic_par_tour / RING_BUFFER_SIZE)))
+            {
+                SPI_MasterTransmit_us(ring_buffer_get_2(&rb, position), time_us_per_turn / (RING_BUFFER_SIZE)); //(int) time_ms_per_turn/(RING_BUFFER_SIZE)
+                position++;
+            }
 
-        if (need_load_buffer)
+            if (need_incr_hour)
+            {
+                incr_hour();
+                need_incr_hour = false;
+            }
+
+            if (need_load_buffer)
+            {
+                horloge_in_buffer();
+                need_load_buffer = false;
+            }
+        }
+        if (state == 0b01)
         {
-            load_chirac();
-            // horloge_in_buffer();
-            need_load_buffer = false;
+            print_word(word_received, tic, tic_par_tour, 55);
+        }
+        if (state == 0b11) {
+            if (state_img == 0) {
+                load_mario();
+            }
+            if (state_img == 1) {
+                load_croix_occitane();
+            }
+            if (state_img == 2) {
+                load_chirac();
+            }
         }
     }
 }

@@ -6,6 +6,7 @@
 #include "SPI_led.h"
 #include "hall.h"
 #include <stdbool.h>
+#include "buffer.h"
 
 
 
