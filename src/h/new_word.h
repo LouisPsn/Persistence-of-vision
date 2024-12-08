@@ -8,40 +8,40 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include "bluetooth.h"
-#include "../h/clock.h"
-#include "../h/buffer.h"
+#include "clock.h"
+#include "buffer.h"
 #include <string.h>
 #include "word.h"
 
-#define BUFFER_DATA_SIZE 20
+#define WORD_SIZE_MAX 20
 
-static int16_t tic_par_tour = 0;
-static int16_t tic = 0;
-static char first = 1;
-static int16_t position = 0;
-struct ring_buffer rb;
+volatile static int16_t tic_par_tour = 0;
+volatile static int16_t tic = 0;
+volatile static char first = 1;
+volatile static int16_t position = 0;
+static struct frame_buffer rb;
 
-static int8_t sec = 0;
-static int8_t min = 0;
-static int8_t heures = 0;
+volatile static int8_t sec = 0;
+volatile static int8_t min = 0;
+volatile static int8_t heures = 0;
 
-static long long last_time_ms = 0;
-static long long time_us_per_turn = 0;
+volatile static long long last_time_ms = 0;
+volatile static long long time_us_per_turn = 0;
 
-static bool need_load_buffer = false;
-static bool need_incr_hour = false;
+volatile static bool need_load_buffer = false;
+volatile static bool need_incr_hour = false;
 
-static char state = 0b00;
-static char state_img = 0;
+volatile static char state = 0b00;
+volatile static char state_img = 0;
 
-struct ring_buffer rb_receive;
+static struct ring_buffer rb_receive;
 
 // boolean to check if data is received
-static char data_received = 0;
+volatile static char data_received = 0;
 
-static char word_received[20] = {0};
 
-char command_buffer[BUFFER_DATA_SIZE];
+
+static char command_buffer[BUFFER_DATA_SIZE] = {0};
 static uint8_t command_index = 0;
 
 

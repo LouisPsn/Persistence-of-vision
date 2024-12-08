@@ -5,19 +5,28 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
+#define BUFFER_DATA_SIZE 20
+
 #define RING_BUFFER_SIZE 100
 
 // typedef ring_buffer ring_buffer;
 struct ring_buffer
 {
-    uint16_t buffer[RING_BUFFER_SIZE];
+    uint16_t buffer[BUFFER_DATA_SIZE];
     uint8_t write;
     uint8_t read;
     uint8_t available;
 };
 
+struct frame_buffer
+{
+    uint16_t buffer[RING_BUFFER_SIZE];
+};
+
 // Initialise le buffer circulaire
 void ring_buffer_init(struct ring_buffer *rb);
+
+void ring_buffer_init_2(struct frame_buffer *rb);
 
 // gère l'incrémentation de write
 void ring_buffer_incr_write(struct ring_buffer *rb);
@@ -41,11 +50,11 @@ uint8_t ring_buffer_available_bytes(struct ring_buffer *rb);
 // Indique si le buffer circulaire est plein
 uint8_t ring_buffer_is_full(struct ring_buffer *rb);
 
-void ring_buffer_put_2(struct ring_buffer *rb, uint16_t data, uint16_t position);
+void ring_buffer_put_2(struct frame_buffer *rb, uint16_t data, uint16_t position);
 
-uint16_t ring_buffer_get_2(struct ring_buffer *rb, int16_t position);
+uint16_t ring_buffer_get_2(struct frame_buffer *rb, int16_t position);
 
-void clear_buffer(struct ring_buffer *rb);
+void clear_buffer(struct frame_buffer *rb);
 
 uint8_t rb_has_data(struct ring_buffer *rb);
 

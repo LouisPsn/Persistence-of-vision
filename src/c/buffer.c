@@ -4,7 +4,7 @@
 // Initialise le buffer circulaire
 void ring_buffer_init(struct ring_buffer *rb)
 {
-    for (int i = 0; i < RING_BUFFER_SIZE; i++)
+    for (int i = 0; i < BUFFER_DATA_SIZE; i++)
     {
         rb->buffer[i] = 0;
     }
@@ -13,10 +13,18 @@ void ring_buffer_init(struct ring_buffer *rb)
     rb->available = 0;
 }
 
+void ring_buffer_init_2(struct frame_buffer *rb)
+{
+    for (int i = 0; i < RING_BUFFER_SIZE; i++)
+    {
+        rb->buffer[i] = 0;
+    }
+}
+
 // gère l'incrémentation de write
 void ring_buffer_incr_write(struct ring_buffer *rb)
 {
-    if (rb->write == RING_BUFFER_SIZE - 1)
+    if (rb->write == BUFFER_DATA_SIZE - 1)
     {
         rb->write = 0;
     }
@@ -30,7 +38,7 @@ void ring_buffer_incr_write(struct ring_buffer *rb)
 // gère l'incrémentation de read
 void ring_buffer_incr_read(struct ring_buffer *rb)
 {
-    if (rb->read == RING_BUFFER_SIZE - 1)
+    if (rb->read == BUFFER_DATA_SIZE - 1)
     {
         rb->read = 0;
     }
@@ -65,7 +73,7 @@ uint8_t ring_buffer_available_bytes(struct ring_buffer *rb)
 // Indique si le buffer circulaire est plein, 1 si plein, 0 sinon
 uint8_t ring_buffer_is_full(struct ring_buffer *rb)
 {
-    if ((rb->write == (rb->read)-1) || (rb->write == RING_BUFFER_SIZE - 1 && rb->read == 0))
+    if ((rb->write == (rb->read)-1) || (rb->write == BUFFER_DATA_SIZE - 1 && rb->read == 0))
     {
         return 0;
     }
@@ -75,19 +83,19 @@ uint8_t ring_buffer_is_full(struct ring_buffer *rb)
     }
 }
 
-void ring_buffer_put_2(struct ring_buffer *rb, uint16_t data, uint16_t position)
+void ring_buffer_put_2(struct frame_buffer *rb, uint16_t data, uint16_t position)
 {
     rb->buffer[position] = data;
 }
 
 
-uint16_t ring_buffer_get_2(struct ring_buffer *rb, int16_t position)
+uint16_t ring_buffer_get_2(struct frame_buffer *rb, int16_t position)
 {
     uint16_t res = rb->buffer[position];
     return res;
 }
 
-void clear_buffer(struct ring_buffer *rb){
+void clear_buffer(struct frame_buffer *rb){
     for(int i=0; i<RING_BUFFER_SIZE;i++){
         ring_buffer_put_2(rb, 0, i);
     }

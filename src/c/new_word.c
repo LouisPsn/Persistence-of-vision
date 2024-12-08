@@ -1,5 +1,7 @@
 #include "../h/new_word.h"
 
+char word_received[WORD_SIZE_MAX] = {0};
+
 ISR(INT0_vect)
 {
     tic_par_tour = read_timer_16();
@@ -16,7 +18,10 @@ ISR(TIMER0_COMPA_vect)
     {
         time_ms = 0;
         need_incr_hour = true;
-        need_load_buffer = true;
+        if (state == 0b00)
+        {
+            need_load_buffer = true;
+        }
     }
 }
 
@@ -25,41 +30,81 @@ ISR(USART_RX_vect)
     ring_buffer_put(&rb_receive, USART_Receive());
 }
 
-void parse_command(char *command)
+void parse_command()
 {
-    USART_Transmit('I');
-    if (strncmp(command, "set ", 4) == 0 && strlen(command) == 11)
+    if (strncmp(command_buffer, "set ", 4) == 0 && strlen(command_buffer) == 11)
     {
         state = 0b00;
         //  convert the string to int
-        int8_t h = (command[4] - 48) * 10 + (command[5] - 48);
-        int8_t m = (command[6] - 48) * 10 + (command[7] - 48);
-        int8_t s = (command[8] - 48) * 10 + (command[9] - 48);
+        int8_t h = (command_buffer[4] - 48) * 10 + (command_buffer[5] - 48);
+        int8_t m = (command_buffer[6] - 48) * 10 + (command_buffer[7] - 48);
+        int8_t s = (command_buffer[8] - 48) * 10 + (command_buffer[9] - 48);
+        while (h > 11)
+        {
+            h -= 12;
+        }
+        while (m > 59)
+        {
+            m -= 60;
+        }
+        while (s > 59)
+        {
+            s -= 60;
+        }
+
         setup_hour(h, m, s);
         transmit_txt("time set", 8);
     }
-    else if (strncmp(command, "word ", 5) == 0 && strlen(command) > 5)
+    else if (strncmp(command_buffer, "word ", 5) == 0 && strlen(command_buffer) > 5)
     {
         // display the word
-        transmit_txt(command + 5, strlen(command) - 5);
+        // transmit_txt(command_buffer + 5, strlen(command_buffer) - 5);
         state = 0b01;
-        for (int i = 0; i < strlen(word_received); i++)
+
+        clear_buffer(&rb);
+
+        for (int i = 0; i < WORD_SIZE_MAX; i++)
         {
-            if (i < strlen(command) - 5)
-            {
-                word_received[i] = command[i + 5];
-            }
-            else
-            {
-                word_received[i] = 0;
-            }
+            word_received[i] = 0;
         }
-        transmit_txt(word_received, strlen(command) - 5);
+
+        transmit_number(strlen(word_received));
+        USART_Transmit('\n');
+
+        int i = 0;
+        while (command_buffer[i + 5] != '\0')
+        {
+            word_received[i] = command_buffer[i + 5];
+            // if (i < strlen(command_buffer) - 5)
+            // {
+            //     word_received[i] = command_buffer[i + 5];
+            // }
+            // else
+            // {
+            //     word_received[i] = 0;
+            // }
+            i++;
+        }
+
+        transmit_txt(word_received, strlen(command_buffer) - 5);
     }
-    else if (strncmp(command, "image ", 6) == 0 && strlen(command) > 6)
+    else if (strncmp(command_buffer, "image ", 6) == 0 && strlen(command_buffer) > 6)
     {
         state = 0b11;
-        state_img = 0;
+        if (command_buffer[6] == 'm')
+        {
+            state_img = 0;
+        }
+        if (command_buffer[6] == 'o')
+        {
+            state_img = 1;
+        }
+        if (command_buffer[6] == 'c')
+        {
+            state_img = 2;
+        }
+
+        need_load_buffer = true;
         // if (command[7] == 'm') {
         //     state_img = 0;
         // }
@@ -71,13 +116,19 @@ void parse_command(char *command)
         // }
     }
     // give time
-    else if (strncmp(command, "time", 4) == 0)
+    else if (strncmp(command_buffer, "time", 4) == 0)
     {
         state = 0b00;
         char time[8];
         horloge_in_buffer();
         // TODO
         // transmit_txt(time, 8);
+    }
+    else if (strncmp(command_buffer, "turn_time", 9) == 0)
+    {
+        state = 0b00;
+        transmit_number(tic_par_tour*1000000/203125);
+        USART_Transmit('\n');
     }
     else
     {
@@ -95,7 +146,7 @@ void parse_data()
             command_buffer[command_index] = '\0';
             command_index = 0;
             // call the function to parse the command
-            parse_command(command_buffer);
+            parse_command();
         }
         else
         {
@@ -153,7 +204,7 @@ void horloge_in_buffer()
         {
             ring_buffer_put_2(&rb, 0b0000111111111110, i);
         }
-        else if (i == (int)RING_BUFFER_SIZE - heures / RING_BUFFER_SIZE / 12)
+        else if (i == (int)RING_BUFFER_SIZE - heures * RING_BUFFER_SIZE / 12)
         {
             ring_buffer_put_2(&rb, 0b0000000011111111, i);
         }
@@ -176,28 +227,6 @@ void new_horloge()
             if (((position) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (position + 1) * (tic_par_tour / RING_BUFFER_SIZE)))
             {
                 SPI_MasterTransmit_us(ring_buffer_get_2(&rb, position), 10); //(int) time_ms_per_turn/(RING_BUFFER_SIZE)
-                position++;
-            }
-        }
-    }
-}
-
-void new_word()
-{
-    ring_buffer_init(&rb);
-    for (int i = 0; i < RING_BUFFER_SIZE; i++)
-    {
-        ring_buffer_put(&rb, 0xFFFF);
-    }
-
-    while (1)
-    {
-        tic++;
-        if (!first)
-        {
-            if (1)
-            {
-                SPI_MasterTransmit_us(ring_buffer_get(&rb), 1);
                 position++;
             }
         }
@@ -307,6 +336,7 @@ void load_mario()
     ring_buffer_put_2(&rb, 0b0010000000000011, 97);
     ring_buffer_put_2(&rb, 0b0000100000000011, 98);
     ring_buffer_put_2(&rb, 0b0100100000000011, 99);
+    need_load_buffer = true;
 }
 
 void load_croix_occitane()
@@ -374,6 +404,7 @@ void load_croix_occitane()
     ring_buffer_put_2(&rb, 0b0001100000000111, 59);
     ring_buffer_put_2(&rb, 0b0000000000000111, 60);
     ring_buffer_put_2(&rb, 0b0000000000000011, 61);
+    load_mario();
     ring_buffer_put_2(&rb, 0b0000000000000011, 62);
     ring_buffer_put_2(&rb, 0b0000000000000011, 63);
     ring_buffer_put_2(&rb, 0b0000000000000011, 64);
@@ -412,6 +443,7 @@ void load_croix_occitane()
     ring_buffer_put_2(&rb, 0b0000110000000000, 97);
     ring_buffer_put_2(&rb, 0b0111110000000000, 98);
     ring_buffer_put_2(&rb, 0b0111100000000000, 99);
+    need_load_buffer = true;
 }
 
 void load_chirac()
@@ -420,6 +452,7 @@ void load_chirac()
     ring_buffer_put_2(&rb, 0b1010000000000000, 0);
     ring_buffer_put_2(&rb, 0b1010000000000000, 1);
     ring_buffer_put_2(&rb, 0b0010000000000000, 2);
+    load_mario();
     ring_buffer_put_2(&rb, 0b0000000000000000, 3);
     ring_buffer_put_2(&rb, 0b0000000011000000, 4);
     ring_buffer_put_2(&rb, 0b0001000000000000, 5);
@@ -517,11 +550,11 @@ void load_chirac()
     ring_buffer_put_2(&rb, 0b0000000000000000, 97);
     ring_buffer_put_2(&rb, 0b0010000000000000, 98);
     ring_buffer_put_2(&rb, 0b1010000000000000, 99);
+    need_load_buffer = true;
 }
 
 void display_buffer()
 {
-
     tic = read_timer_16();
     if (rb_has_data(&rb_receive))
     {
@@ -529,15 +562,8 @@ void display_buffer()
     }
     if (!first)
     {
-
         if (state == 0b00)
         {
-            if (((position) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (position + 1) * (tic_par_tour / RING_BUFFER_SIZE)))
-            {
-                SPI_MasterTransmit_us(ring_buffer_get_2(&rb, position), time_us_per_turn / (RING_BUFFER_SIZE)); //(int) time_ms_per_turn/(RING_BUFFER_SIZE)
-                position++;
-            }
-
             if (need_incr_hour)
             {
                 incr_hour();
@@ -550,20 +576,33 @@ void display_buffer()
                 need_load_buffer = false;
             }
         }
-        if (state == 0b01)
+        else if (state == 0b01)
         {
-            print_word(word_received, tic, tic_par_tour, 55);
+            print_word(word_received, tic, tic_par_tour, 100);
         }
-        if (state == 0b11) {
-            if (state_img == 0) {
-                load_mario();
+        else if (state == 0b11)
+        {
+            if (need_load_buffer)
+            {
+                if (state_img == 0)
+                {
+                    load_mario();
+                }
+                if (state_img == 1)
+                {
+                    load_croix_occitane();
+                }
+                if (state_img == 2)
+                {
+                    load_chirac();
+                }
+                need_load_buffer = false;
             }
-            if (state_img == 1) {
-                load_croix_occitane();
-            }
-            if (state_img == 2) {
-                load_chirac();
-            }
+        }
+        if (state != 0b01 && ((position) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (position + 1) * (tic_par_tour / RING_BUFFER_SIZE)))
+        {
+            SPI_MasterTransmit_us(ring_buffer_get_2(&rb, position), time_us_per_turn / (RING_BUFFER_SIZE)); //(int) time_ms_per_turn/(RING_BUFFER_SIZE)
+            position++;
         }
     }
 }

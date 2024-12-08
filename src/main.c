@@ -11,7 +11,6 @@ void setup()
     init_clock_time();
     init_clock_aff();
     setup_hour(3, 25, 30);
-    load_mario();
     sei();
 }
 

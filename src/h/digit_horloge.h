@@ -42,8 +42,8 @@ int16_t error[RING_BUFFER_SIZE/4]={0xFFFF};
 
 void setup_const();
 
-void digit_in_buffer(struct ring_buffer *rb, int16_t data[RING_BUFFER_SIZE/4], int16_t quart);
+void digit_in_buffer(struct frame_buffer *rb, int16_t data[RING_BUFFER_SIZE/4], int16_t quart);
 
-void hour_digit_in_buffer(struct ring_buffer *rb, int8_t h, int8_t m);
+void hour_digit_in_buffer(struct frame_buffer *rb, int8_t h, int8_t m);
 
 #endif

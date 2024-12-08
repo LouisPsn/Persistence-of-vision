@@ -34,6 +34,7 @@ void transmit_txt(unsigned char* txt, int length)
     for(int i; i < length; i++) {
         USART_Transmit(txt[i]);
     }
+    USART_Transmit('\n');
 }
 
 void transmit_number(long long num)

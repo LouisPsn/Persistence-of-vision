@@ -5,7 +5,7 @@ void setup_const()
 
 }
 
-void digit_in_buffer(struct ring_buffer *rb, int16_t data[RING_BUFFER_SIZE / 4], int16_t quart)
+void digit_in_buffer(struct frame_buffer *rb, int16_t data[RING_BUFFER_SIZE / 4], int16_t quart)
 {
     for (int i = 0; i < RING_BUFFER_SIZE / 4; i++)
     {
@@ -13,7 +13,7 @@ void digit_in_buffer(struct ring_buffer *rb, int16_t data[RING_BUFFER_SIZE / 4],
     }
 }
 
-void hour_digit_in_buffer(struct ring_buffer *rb, int8_t h, int8_t m)
+void hour_digit_in_buffer(struct frame_buffer *rb, int8_t h, int8_t m)
 {
     // premier quart, dixaine des heures
     if (h < 10)
