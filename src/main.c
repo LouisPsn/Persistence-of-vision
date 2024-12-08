@@ -60,9 +60,9 @@ void parse_command(char *command)
     if (strncmp(command, "set ", 4) == 0 && strlen(command) == 11)
     {
         //  convert the string to int
-        int8_t h = command[4] * 10 + command[5];
-        int8_t m = command[6] * 10 + command[7];
-        int8_t s = command[8] * 10 + command[9];
+        int8_t h = (command[4]-48)*10 + (command[5]-48);
+        int8_t m = (command[6]-48)*10 + (command[7]-48);
+        int8_t s = (command[8]-48)*10 + (command[9]-48);
         setup_hour(h, m, s);
         transmit_txt("time set", 8);
     }
@@ -122,7 +122,7 @@ void setup()
 
 void loop()
 {
-    // tic = read_timer_16();
+    tic = read_timer_16();
     if (rb_has_data(&rb_receive))
     {
         parse_data();
@@ -138,19 +138,19 @@ void loop()
                 position++;
             }
 
-            // if (need_incr_hour)
-            // {
-            //     incr_hour();
-            //     need_incr_hour = false;
-            // }
+            if (need_incr_hour)
+            {
+                incr_hour();
+                need_incr_hour = false;
+            }
 
-            // if (need_load_buffer)
-            // {
-            //     horloge_in_buffer();
-            //     need_load_buffer = false;
-            // }
+            if (need_load_buffer)
+            {
+                horloge_in_buffer();
+                need_load_buffer = false;
+            }
         }
-        load_mario();
+        //load_mario();
     }
 }
 

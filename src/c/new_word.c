@@ -90,15 +90,15 @@ void horloge_in_buffer()
     clear_buffer(&rb);
     for (int i = 0; i < RING_BUFFER_SIZE; i++)
     {
-        if (i == (int)sec)
+        if (i == (int)RING_BUFFER_SIZE-sec)
         {
             ring_buffer_put_2(&rb, 0b1111111111111111, i);
         }
-        else if (i == (int)min)
+        else if (i == (int)RING_BUFFER_SIZE-min)
         {
             ring_buffer_put_2(&rb, 0b0000111111111110, i);
         }
-        else if (i == (int)heures * 6)
+        else if (i == (int)RING_BUFFER_SIZE-heures * 5)
         {
             ring_buffer_put_2(&rb, 0b0000000011111111, i);
         }
