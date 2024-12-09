@@ -97,17 +97,7 @@ void parse_command()
         {
             state_img = 2;
         }
-
         need_load_buffer = true;
-        // if (command[7] == 'm') {
-        //     state_img = 0;
-        // }
-        // if (command[7] == 'o') {
-        //     state_img = 0;
-        // }
-        // if (command[7] == 'c') {
-        //     state_img = 0;
-        // }
     }
     // give time
     else if (strncmp(command_buffer, "time", 4) == 0)
@@ -115,8 +105,6 @@ void parse_command()
         state = 0b00;
         char time[8];
         horloge_in_buffer();
-        // TODO
-        // transmit_txt(time, 8);
     }
     else if (strncmp(command_buffer, "turn_time", 9) == 0)
     {
@@ -234,7 +222,6 @@ void new_horloge()
 
 void load_mario()
 {
-    uint16_t tic = read_timer_16();
     clear_buffer(&rb);
     ring_buffer_put_2(&rb, 0b0100100000000011, 0);
     ring_buffer_put_2(&rb, 0b0100100000000011, 1);
@@ -336,8 +323,6 @@ void load_mario()
     ring_buffer_put_2(&rb, 0b0010000000000011, 97);
     ring_buffer_put_2(&rb, 0b0000100000000011, 98);
     ring_buffer_put_2(&rb, 0b0100100000000011, 99);
-    need_load_buffer = true;
-    transmit_number(read_timer_16() - tic);
 }
 
 void load_croix_occitane()
@@ -443,7 +428,6 @@ void load_croix_occitane()
     ring_buffer_put_2(&rb, 0b0000110000000000, 97);
     ring_buffer_put_2(&rb, 0b0111110000000000, 98);
     ring_buffer_put_2(&rb, 0b0111100000000000, 99);
-    need_load_buffer = true;
 }
 
 void load_chirac()
@@ -549,7 +533,6 @@ void load_chirac()
     ring_buffer_put_2(&rb, 0b0000000000000000, 97);
     ring_buffer_put_2(&rb, 0b0010000000000000, 98);
     ring_buffer_put_2(&rb, 0b1010000000000000, 99);
-    need_load_buffer = true;
 }
 
 void load_penta()
@@ -1030,7 +1013,9 @@ void display_buffer()
         }
         if (state != 0b01 && ((position) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (position + 1) * (tic_par_tour / RING_BUFFER_SIZE)))
         {
-            SPI_MasterTransmit_us(ring_buffer_get_2(&rb, position), time_us_per_turn / (RING_BUFFER_SIZE) / 4); //(int) time_ms_per_turn/(RING_BUFFER_SIZE)
+            // int tic = read_timer_16();
+            SPI_MasterTransmit_us(ring_buffer_get_2(&rb, position), time_us_per_turn / RING_BUFFER_SIZE / 4); //(int) time_ms_per_turn/(RING_BUFFER_SIZE)
+            // transmit_number(read_timer_16() - tic);
             position++;
         }
     }
