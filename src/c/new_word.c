@@ -8,7 +8,9 @@ ISR(INT0_vect)
     clear_timer_16();
     first = 0;
     position = 0;
-    time_us_per_turn = tic_par_tour * 1000000 / 203125 * 2;
+    time_us_per_turn = tic_par_tour;
+    time_us_per_turn = time_us_per_turn * 1000000 / 203125;
+    need_load_gif = true;
 }
 
 ISR(TIMER0_COMPA_vect)
@@ -75,14 +77,6 @@ void parse_command()
         while (command_buffer[i + 5] != '\0')
         {
             word_received[i] = command_buffer[i + 5];
-            // if (i < strlen(command_buffer) - 5)
-            // {
-            //     word_received[i] = command_buffer[i + 5];
-            // }
-            // else
-            // {
-            //     word_received[i] = 0;
-            // }
             i++;
         }
 
@@ -127,8 +121,13 @@ void parse_command()
     else if (strncmp(command_buffer, "turn_time", 9) == 0)
     {
         state = 0b00;
-        transmit_number(tic_par_tour*1000000/203125);
-        USART_Transmit('\n');
+        transmit_number(time_us_per_turn);
+    }
+    else if (strncmp(command_buffer, "gif", 3) == 0)
+    {
+        state = 0b100;
+        transmit_txt("GIF", 3);
+        need_load_buffer = true;
     }
     else
     {
@@ -235,6 +234,7 @@ void new_horloge()
 
 void load_mario()
 {
+    uint16_t tic = read_timer_16();
     clear_buffer(&rb);
     ring_buffer_put_2(&rb, 0b0100100000000011, 0);
     ring_buffer_put_2(&rb, 0b0100100000000011, 1);
@@ -337,6 +337,7 @@ void load_mario()
     ring_buffer_put_2(&rb, 0b0000100000000011, 98);
     ring_buffer_put_2(&rb, 0b0100100000000011, 99);
     need_load_buffer = true;
+    transmit_number(read_timer_16() - tic);
 }
 
 void load_croix_occitane()
@@ -404,7 +405,6 @@ void load_croix_occitane()
     ring_buffer_put_2(&rb, 0b0001100000000111, 59);
     ring_buffer_put_2(&rb, 0b0000000000000111, 60);
     ring_buffer_put_2(&rb, 0b0000000000000011, 61);
-    load_mario();
     ring_buffer_put_2(&rb, 0b0000000000000011, 62);
     ring_buffer_put_2(&rb, 0b0000000000000011, 63);
     ring_buffer_put_2(&rb, 0b0000000000000011, 64);
@@ -452,7 +452,6 @@ void load_chirac()
     ring_buffer_put_2(&rb, 0b1010000000000000, 0);
     ring_buffer_put_2(&rb, 0b1010000000000000, 1);
     ring_buffer_put_2(&rb, 0b0010000000000000, 2);
-    load_mario();
     ring_buffer_put_2(&rb, 0b0000000000000000, 3);
     ring_buffer_put_2(&rb, 0b0000000011000000, 4);
     ring_buffer_put_2(&rb, 0b0001000000000000, 5);
@@ -553,6 +552,431 @@ void load_chirac()
     need_load_buffer = true;
 }
 
+void load_penta()
+{
+    need_load_buffer = true;
+    if (need_load_buffer && state_gif == 0)
+    {
+        ring_buffer_put_2(&rb, 0b0111100000000100, 0);
+        ring_buffer_put_2(&rb, 0b1111100000000100, 1);
+        ring_buffer_put_2(&rb, 0b0000011000001100, 2);
+        ring_buffer_put_2(&rb, 0b0000001000001100, 3);
+        ring_buffer_put_2(&rb, 0b0000000111001100, 4);
+        ring_buffer_put_2(&rb, 0b0000000111101000, 5);
+        ring_buffer_put_2(&rb, 0b0000000001101000, 6);
+        ring_buffer_put_2(&rb, 0b0000000000101000, 7);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 8);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 9);
+        ring_buffer_put_2(&rb, 0b0000000000011000, 10);
+        ring_buffer_put_2(&rb, 0b0000000000011000, 11);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 12);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 13);
+        ring_buffer_put_2(&rb, 0b0000000001100000, 14);
+        ring_buffer_put_2(&rb, 0b0000000011101000, 15);
+        ring_buffer_put_2(&rb, 0b0000000111001000, 16);
+        ring_buffer_put_2(&rb, 0b0000001110001000, 17);
+        ring_buffer_put_2(&rb, 0b0000011000001000, 18);
+        ring_buffer_put_2(&rb, 0b0011110000001000, 19);
+        ring_buffer_put_2(&rb, 0b0111000000001000, 20);
+        ring_buffer_put_2(&rb, 0b0001110000001100, 21);
+        ring_buffer_put_2(&rb, 0b0000011100001100, 22);
+        ring_buffer_put_2(&rb, 0b0000001110000100, 23);
+        ring_buffer_put_2(&rb, 0b0000000010000100, 24);
+        ring_buffer_put_2(&rb, 0b0000000010000100, 25);
+        ring_buffer_put_2(&rb, 0b0000000001111000, 26);
+        ring_buffer_put_2(&rb, 0b0000000001011000, 27);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 28);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 29);
+        ring_buffer_put_2(&rb, 0b0000000000010000, 30);
+        ring_buffer_put_2(&rb, 0b0000000000010000, 31);
+        ring_buffer_put_2(&rb, 0b0000000001111000, 32);
+        ring_buffer_put_2(&rb, 0b0000000001111000, 33);
+        ring_buffer_put_2(&rb, 0b0000000001001000, 34);
+        ring_buffer_put_2(&rb, 0b0000000011001000, 35);
+        ring_buffer_put_2(&rb, 0b0000001110001000, 36);
+        ring_buffer_put_2(&rb, 0b0000001010001000, 37);
+        ring_buffer_put_2(&rb, 0b0001111000001000, 38);
+        ring_buffer_put_2(&rb, 0b0011010000001000, 39);
+        ring_buffer_put_2(&rb, 0b0110100000000000, 40);
+        ring_buffer_put_2(&rb, 0b0010110100000000, 41);
+        ring_buffer_put_2(&rb, 0b0000010100000000, 42);
+        ring_buffer_put_2(&rb, 0b0000000100001000, 43);
+        ring_buffer_put_2(&rb, 0b0000000111001000, 44);
+        ring_buffer_put_2(&rb, 0b0000000001101000, 45);
+        ring_buffer_put_2(&rb, 0b0000000000101000, 46);
+        ring_buffer_put_2(&rb, 0b0000000000110000, 47);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 48);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 49);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 50);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 51);
+        ring_buffer_put_2(&rb, 0b0000000000110000, 52);
+        ring_buffer_put_2(&rb, 0b0000000000101000, 53);
+        ring_buffer_put_2(&rb, 0b0000000001101000, 54);
+        ring_buffer_put_2(&rb, 0b0000000101001000, 55);
+        ring_buffer_put_2(&rb, 0b0000000100001000, 56);
+        ring_buffer_put_2(&rb, 0b0000010100000000, 57);
+        ring_buffer_put_2(&rb, 0b0010110100000000, 58);
+        ring_buffer_put_2(&rb, 0b1110100000000000, 59);
+        ring_buffer_put_2(&rb, 0b0011010000001000, 60);
+        ring_buffer_put_2(&rb, 0b0001111000001000, 61);
+        ring_buffer_put_2(&rb, 0b0000001010001000, 62);
+        ring_buffer_put_2(&rb, 0b0000001110001000, 63);
+        ring_buffer_put_2(&rb, 0b0000000011001000, 64);
+        ring_buffer_put_2(&rb, 0b0000000001001000, 65);
+        ring_buffer_put_2(&rb, 0b0000000001011000, 66);
+        ring_buffer_put_2(&rb, 0b0000000001111000, 67);
+        ring_buffer_put_2(&rb, 0b0000000000010000, 68);
+        ring_buffer_put_2(&rb, 0b0000000000010000, 69);
+        ring_buffer_put_2(&rb, 0b0000000000110000, 70);
+        ring_buffer_put_2(&rb, 0b0000000000110000, 71);
+        ring_buffer_put_2(&rb, 0b0000000001010000, 72);
+        ring_buffer_put_2(&rb, 0b0000000001011000, 73);
+        ring_buffer_put_2(&rb, 0b0000000010001100, 74);
+        ring_buffer_put_2(&rb, 0b0000000010001100, 75);
+        ring_buffer_put_2(&rb, 0b0000001110001000, 76);
+        ring_buffer_put_2(&rb, 0b0000011100001000, 77);
+        ring_buffer_put_2(&rb, 0b0001110000001000, 78);
+        ring_buffer_put_2(&rb, 0b0111000000001000, 79);
+        ring_buffer_put_2(&rb, 0b0011110000001000, 80);
+        ring_buffer_put_2(&rb, 0b0000011000001000, 81);
+        ring_buffer_put_2(&rb, 0b0000001110001000, 82);
+        ring_buffer_put_2(&rb, 0b0000000111001000, 83);
+        ring_buffer_put_2(&rb, 0b0000000011101000, 84);
+        ring_buffer_put_2(&rb, 0b0000000001101000, 85);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 86);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 87);
+        ring_buffer_put_2(&rb, 0b0000000000011000, 88);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 89);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 90);
+        ring_buffer_put_2(&rb, 0b0000000000101000, 91);
+        ring_buffer_put_2(&rb, 0b0000000000101000, 92);
+        ring_buffer_put_2(&rb, 0b0000000001101000, 93);
+        ring_buffer_put_2(&rb, 0b0000000111101000, 94);
+        ring_buffer_put_2(&rb, 0b0000000110001100, 95);
+        ring_buffer_put_2(&rb, 0b0000011000001100, 96);
+        ring_buffer_put_2(&rb, 0b0000011000001100, 97);
+        ring_buffer_put_2(&rb, 0b1111100000000100, 98);
+        ring_buffer_put_2(&rb, 0b0111100000000100, 99);
+        state_gif = 1;
+        need_load_buffer = false;
+    }
+    if (need_load_buffer && state_gif == 1)
+    {
+        ring_buffer_put_2(&rb, 0b0000000010000100, 0);
+        ring_buffer_put_2(&rb, 0b0000000010000100, 1);
+        ring_buffer_put_2(&rb, 0b0000001110001100, 2);
+        ring_buffer_put_2(&rb, 0b0000011100001100, 3);
+        ring_buffer_put_2(&rb, 0b0001010000001100, 4);
+        ring_buffer_put_2(&rb, 0b0111000000001000, 5);
+        ring_buffer_put_2(&rb, 0b0001110000001000, 6);
+        ring_buffer_put_2(&rb, 0b0000011100001000, 7);
+        ring_buffer_put_2(&rb, 0b0000000110001000, 8);
+        ring_buffer_put_2(&rb, 0b0000000011001000, 9);
+        ring_buffer_put_2(&rb, 0b0000000001100000, 10);
+        ring_buffer_put_2(&rb, 0b0000000001101000, 11);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 12);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 13);
+        ring_buffer_put_2(&rb, 0b0000000000011000, 14);
+        ring_buffer_put_2(&rb, 0b0000000000011000, 15);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 16);
+        ring_buffer_put_2(&rb, 0b0000000000001000, 17);
+        ring_buffer_put_2(&rb, 0b0000000000101000, 18);
+        ring_buffer_put_2(&rb, 0b0000000001101000, 19);
+        ring_buffer_put_2(&rb, 0b0000000111101000, 20);
+        ring_buffer_put_2(&rb, 0b0000000110001100, 21);
+        ring_buffer_put_2(&rb, 0b0000011000001100, 22);
+        ring_buffer_put_2(&rb, 0b0000011000000100, 23);
+        ring_buffer_put_2(&rb, 0b1111100000000100, 24);
+        ring_buffer_put_2(&rb, 0b1111100000000100, 25);
+        ring_buffer_put_2(&rb, 0b1111100000000100, 26);
+        ring_buffer_put_2(&rb, 0b0000011000001100, 27);
+        ring_buffer_put_2(&rb, 0b0000001000001100, 28);
+        ring_buffer_put_2(&rb, 0b0000000111001100, 29);
+        ring_buffer_put_2(&rb, 0b0000000111101000, 30);
+        ring_buffer_put_2(&rb, 0b0000000001101000, 31);
+        ring_buffer_put_2(&rb, 0b0000000000101000, 32);
+        ring_buffer_put_2(&rb, 0b0000000000101000, 33);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 34);
+        ring_buffer_put_2(&rb, 0b0000000000011000, 35);
+        ring_buffer_put_2(&rb, 0b0000000000011000, 36);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 37);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 38);
+        ring_buffer_put_2(&rb, 0b0000000001101000, 39);
+        ring_buffer_put_2(&rb, 0b0000000011001000, 40);
+        ring_buffer_put_2(&rb, 0b0000000111001000, 41);
+        ring_buffer_put_2(&rb, 0b0000001100001000, 42);
+        ring_buffer_put_2(&rb, 0b0000111000001000, 43);
+        ring_buffer_put_2(&rb, 0b0011100000001000, 44);
+        ring_buffer_put_2(&rb, 0b0101000000001000, 45);
+        ring_buffer_put_2(&rb, 0b0001110000001000, 46);
+        ring_buffer_put_2(&rb, 0b0000001100001000, 47);
+        ring_buffer_put_2(&rb, 0b0000001010001000, 48);
+        ring_buffer_put_2(&rb, 0b0000000010001100, 49);
+        ring_buffer_put_2(&rb, 0b0000000001011100, 50);
+        ring_buffer_put_2(&rb, 0b0000000001011000, 51);
+        ring_buffer_put_2(&rb, 0b0000000001010000, 52);
+        ring_buffer_put_2(&rb, 0b0000000000110000, 53);
+        ring_buffer_put_2(&rb, 0b0000000000110000, 54);
+        ring_buffer_put_2(&rb, 0b0000000000010000, 55);
+        ring_buffer_put_2(&rb, 0b0000000000010000, 56);
+        ring_buffer_put_2(&rb, 0b0000000001111000, 57);
+        ring_buffer_put_2(&rb, 0b0000000001011000, 58);
+        ring_buffer_put_2(&rb, 0b0000000011001000, 59);
+        ring_buffer_put_2(&rb, 0b0000000011001000, 60);
+        ring_buffer_put_2(&rb, 0b0000001110001000, 61);
+        ring_buffer_put_2(&rb, 0b0000011010001000, 62);
+        ring_buffer_put_2(&rb, 0b0011010000001000, 63);
+        ring_buffer_put_2(&rb, 0b0110000000001000, 64);
+        ring_buffer_put_2(&rb, 0b0110100000000000, 65);
+        ring_buffer_put_2(&rb, 0b0000111100000000, 66);
+        ring_buffer_put_2(&rb, 0b0000000100000000, 67);
+        ring_buffer_put_2(&rb, 0b0000000101001000, 68);
+        ring_buffer_put_2(&rb, 0b0000000101001000, 69);
+        ring_buffer_put_2(&rb, 0b0000000001101000, 70);
+        ring_buffer_put_2(&rb, 0b0000000000110000, 71);
+        ring_buffer_put_2(&rb, 0b0000000000110000, 72);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 73);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 74);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 75);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 76);
+        ring_buffer_put_2(&rb, 0b0000000000110000, 77);
+        ring_buffer_put_2(&rb, 0b0000000000101000, 78);
+        ring_buffer_put_2(&rb, 0b0000000001101000, 79);
+        ring_buffer_put_2(&rb, 0b0000000101001000, 80);
+        ring_buffer_put_2(&rb, 0b0000000100000000, 81);
+        ring_buffer_put_2(&rb, 0b0000011100000000, 82);
+        ring_buffer_put_2(&rb, 0b0011110000000000, 83);
+        ring_buffer_put_2(&rb, 0b0110000000000000, 84);
+        ring_buffer_put_2(&rb, 0b0011010000001000, 85);
+        ring_buffer_put_2(&rb, 0b0001011000001000, 86);
+        ring_buffer_put_2(&rb, 0b0000001110001000, 87);
+        ring_buffer_put_2(&rb, 0b0000000111001000, 88);
+        ring_buffer_put_2(&rb, 0b0000000011001000, 89);
+        ring_buffer_put_2(&rb, 0b0000000001001000, 90);
+        ring_buffer_put_2(&rb, 0b0000000001111000, 91);
+        ring_buffer_put_2(&rb, 0b0000000000011000, 92);
+        ring_buffer_put_2(&rb, 0b0000000000010000, 93);
+        ring_buffer_put_2(&rb, 0b0000000000110000, 94);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 95);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 96);
+        ring_buffer_put_2(&rb, 0b0000000001011000, 97);
+        ring_buffer_put_2(&rb, 0b0000000001111000, 98);
+        ring_buffer_put_2(&rb, 0b0000000010000100, 99);
+        state_gif = 2;
+        need_load_buffer = false;
+    }
+    if (need_load_buffer && state_gif == 2)
+    {
+        ring_buffer_put_2(&rb, 0b1000000000111000, 0);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 1);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 2);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 3);
+        ring_buffer_put_2(&rb, 0b0000000001101100, 4);
+        ring_buffer_put_2(&rb, 0b0000000001001000, 5);
+        ring_buffer_put_2(&rb, 0b0000000111001000, 6);
+        ring_buffer_put_2(&rb, 0b0000000100000000, 7);
+        ring_buffer_put_2(&rb, 0b0000111100000000, 8);
+        ring_buffer_put_2(&rb, 0b0111100000000000, 9);
+        ring_buffer_put_2(&rb, 0b0110000000000000, 10);
+        ring_buffer_put_2(&rb, 0b0011010000001000, 11);
+        ring_buffer_put_2(&rb, 0b0000011000001000, 12);
+        ring_buffer_put_2(&rb, 0b0000001110001000, 13);
+        ring_buffer_put_2(&rb, 0b0000000111000000, 14);
+        ring_buffer_put_2(&rb, 0b0000000001001000, 15);
+        ring_buffer_put_2(&rb, 0b0000000001001000, 16);
+        ring_buffer_put_2(&rb, 0b0000000001111000, 17);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 18);
+        ring_buffer_put_2(&rb, 0b0000000000010000, 19);
+        ring_buffer_put_2(&rb, 0b0000000000110000, 20);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 21);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 22);
+        ring_buffer_put_2(&rb, 0b0000000001111000, 23);
+        ring_buffer_put_2(&rb, 0b0000000001111000, 24);
+        ring_buffer_put_2(&rb, 0b0000000001111000, 25);
+        ring_buffer_put_2(&rb, 0b0000000010000100, 26);
+        ring_buffer_put_2(&rb, 0b0000001110001100, 27);
+        ring_buffer_put_2(&rb, 0b0000011100001100, 28);
+        ring_buffer_put_2(&rb, 0b0001010000001100, 29);
+        ring_buffer_put_2(&rb, 0b0111000000001000, 30);
+        ring_buffer_put_2(&rb, 0b0001110000001000, 31);
+        ring_buffer_put_2(&rb, 0b0000011100001000, 32);
+        ring_buffer_put_2(&rb, 0b0000000110001000, 33);
+        ring_buffer_put_2(&rb, 0b0000000011001000, 34);
+        ring_buffer_put_2(&rb, 0b0000000011101000, 35);
+        ring_buffer_put_2(&rb, 0b0000000001101000, 36);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 37);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 38);
+        ring_buffer_put_2(&rb, 0b0000000000011000, 39);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 40);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 41);
+        ring_buffer_put_2(&rb, 0b0000000000101000, 42);
+        ring_buffer_put_2(&rb, 0b0000000000101000, 43);
+        ring_buffer_put_2(&rb, 0b0000000011101000, 44);
+        ring_buffer_put_2(&rb, 0b0000001111101000, 45);
+        ring_buffer_put_2(&rb, 0b0000000100001000, 46);
+        ring_buffer_put_2(&rb, 0b0000011000001000, 47);
+        ring_buffer_put_2(&rb, 0b0000011000001000, 48);
+        ring_buffer_put_2(&rb, 0b1111100000001100, 49);
+        ring_buffer_put_2(&rb, 0b1111100000001100, 50);
+        ring_buffer_put_2(&rb, 0b0001100000001000, 51);
+        ring_buffer_put_2(&rb, 0b0000011000001000, 52);
+        ring_buffer_put_2(&rb, 0b0000000100001000, 53);
+        ring_buffer_put_2(&rb, 0b0000001111001000, 54);
+        ring_buffer_put_2(&rb, 0b0000000011101000, 55);
+        ring_buffer_put_2(&rb, 0b0000000001101000, 56);
+        ring_buffer_put_2(&rb, 0b0000000000101000, 57);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 58);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 59);
+        ring_buffer_put_2(&rb, 0b0000000000011000, 60);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 61);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 62);
+        ring_buffer_put_2(&rb, 0b0000000001101000, 63);
+        ring_buffer_put_2(&rb, 0b0000000011101000, 64);
+        ring_buffer_put_2(&rb, 0b0000000011001000, 65);
+        ring_buffer_put_2(&rb, 0b0000000110011000, 66);
+        ring_buffer_put_2(&rb, 0b0000011100001000, 67);
+        ring_buffer_put_2(&rb, 0b0001110000001000, 68);
+        ring_buffer_put_2(&rb, 0b0111000000001000, 69);
+        ring_buffer_put_2(&rb, 0b0001000000001000, 70);
+        ring_buffer_put_2(&rb, 0b0000111100001000, 71);
+        ring_buffer_put_2(&rb, 0b0000001110001000, 72);
+        ring_buffer_put_2(&rb, 0b0000000010001100, 73);
+        ring_buffer_put_2(&rb, 0b0000000001011000, 74);
+        ring_buffer_put_2(&rb, 0b0000000001011000, 75);
+        ring_buffer_put_2(&rb, 0b0000000001011000, 76);
+        ring_buffer_put_2(&rb, 0b0000000000110000, 77);
+        ring_buffer_put_2(&rb, 0b0000000000110000, 78);
+        ring_buffer_put_2(&rb, 0b0000000000110000, 79);
+        ring_buffer_put_2(&rb, 0b0000000000010000, 80);
+        ring_buffer_put_2(&rb, 0b0000000001111000, 81);
+        ring_buffer_put_2(&rb, 0b0000000001111000, 82);
+        ring_buffer_put_2(&rb, 0b0000000001001000, 83);
+        ring_buffer_put_2(&rb, 0b0000000011001000, 84);
+        ring_buffer_put_2(&rb, 0b0000000110001000, 85);
+        ring_buffer_put_2(&rb, 0b0000001110001000, 86);
+        ring_buffer_put_2(&rb, 0b0001011000001000, 87);
+        ring_buffer_put_2(&rb, 0b0011010000001000, 88);
+        ring_buffer_put_2(&rb, 0b0110000000000000, 89);
+        ring_buffer_put_2(&rb, 0b0011110100000000, 90);
+        ring_buffer_put_2(&rb, 0b0000011100000000, 91);
+        ring_buffer_put_2(&rb, 0b0000000100001000, 92);
+        ring_buffer_put_2(&rb, 0b0000000111001000, 93);
+        ring_buffer_put_2(&rb, 0b0000000001101000, 94);
+        ring_buffer_put_2(&rb, 0b0000000000101000, 95);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 96);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 97);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 98);
+        ring_buffer_put_2(&rb, 0b1000000000111000, 99);
+        state_gif = 3;
+        need_load_buffer = false;
+    }
+    if (need_load_buffer && state_gif == 3)
+    {
+        ring_buffer_put_2(&rb, 0b0000000001111000, 0);
+        ring_buffer_put_2(&rb, 0b0000000001111000, 1);
+        ring_buffer_put_2(&rb, 0b0000000001011000, 2);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 3);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 4);
+        ring_buffer_put_2(&rb, 0b0000000000010000, 5);
+        ring_buffer_put_2(&rb, 0b0000000000010000, 6);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 7);
+        ring_buffer_put_2(&rb, 0b0000000001111000, 8);
+        ring_buffer_put_2(&rb, 0b0000000001001000, 9);
+        ring_buffer_put_2(&rb, 0b0000000011000000, 10);
+        ring_buffer_put_2(&rb, 0b0000000111001000, 11);
+        ring_buffer_put_2(&rb, 0b0000001110001000, 12);
+        ring_buffer_put_2(&rb, 0b0001111000001000, 13);
+        ring_buffer_put_2(&rb, 0b0011010000000000, 14);
+        ring_buffer_put_2(&rb, 0b0110000000000000, 15);
+        ring_buffer_put_2(&rb, 0b0001111100000000, 16);
+        ring_buffer_put_2(&rb, 0b0000001100000000, 17);
+        ring_buffer_put_2(&rb, 0b0000000100000000, 18);
+        ring_buffer_put_2(&rb, 0b0000000111001000, 19);
+        ring_buffer_put_2(&rb, 0b0000000001101000, 20);
+        ring_buffer_put_2(&rb, 0b0000000000101100, 21);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 22);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 23);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 24);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 25);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 26);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 27);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 28);
+        ring_buffer_put_2(&rb, 0b0000000001101000, 29);
+        ring_buffer_put_2(&rb, 0b0000000001001000, 30);
+        ring_buffer_put_2(&rb, 0b0000000111001000, 31);
+        ring_buffer_put_2(&rb, 0b0000000100000000, 32);
+        ring_buffer_put_2(&rb, 0b0000111100000000, 33);
+        ring_buffer_put_2(&rb, 0b0111100000000000, 34);
+        ring_buffer_put_2(&rb, 0b0110000000000000, 35);
+        ring_buffer_put_2(&rb, 0b0011010000001000, 36);
+        ring_buffer_put_2(&rb, 0b0000011000001000, 37);
+        ring_buffer_put_2(&rb, 0b0000001110001000, 38);
+        ring_buffer_put_2(&rb, 0b0000000111001000, 39);
+        ring_buffer_put_2(&rb, 0b0000000011001000, 40);
+        ring_buffer_put_2(&rb, 0b0000000001001000, 41);
+        ring_buffer_put_2(&rb, 0b0000000001111000, 42);
+        ring_buffer_put_2(&rb, 0b0000000001011000, 43);
+        ring_buffer_put_2(&rb, 0b0000000000010000, 44);
+        ring_buffer_put_2(&rb, 0b0000000000110000, 45);
+        ring_buffer_put_2(&rb, 0b0000000000110000, 46);
+        ring_buffer_put_2(&rb, 0b0000000000110000, 47);
+        ring_buffer_put_2(&rb, 0b0000000001011000, 48);
+        ring_buffer_put_2(&rb, 0b0000000001011000, 49);
+        ring_buffer_put_2(&rb, 0b0000000010001000, 50);
+        ring_buffer_put_2(&rb, 0b0000000010001000, 51);
+        ring_buffer_put_2(&rb, 0b0000001100001000, 52);
+        ring_buffer_put_2(&rb, 0b0000110100001000, 53);
+        ring_buffer_put_2(&rb, 0b0101000000001000, 54);
+        ring_buffer_put_2(&rb, 0b0111100000001000, 55);
+        ring_buffer_put_2(&rb, 0b0000111000001000, 56);
+        ring_buffer_put_2(&rb, 0b0000011100001000, 57);
+        ring_buffer_put_2(&rb, 0b0000000110001000, 58);
+        ring_buffer_put_2(&rb, 0b0000000011001000, 59);
+        ring_buffer_put_2(&rb, 0b0000000001101000, 60);
+        ring_buffer_put_2(&rb, 0b0000000001101000, 61);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 62);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 63);
+        ring_buffer_put_2(&rb, 0b0000000000011000, 64);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 65);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 66);
+        ring_buffer_put_2(&rb, 0b0000000000101000, 67);
+        ring_buffer_put_2(&rb, 0b0000000001101000, 68);
+        ring_buffer_put_2(&rb, 0b0000000111101000, 69);
+        ring_buffer_put_2(&rb, 0b0000001111001000, 70);
+        ring_buffer_put_2(&rb, 0b0000001000001000, 71);
+        ring_buffer_put_2(&rb, 0b0000011000001000, 72);
+        ring_buffer_put_2(&rb, 0b1111100000001100, 73);
+        ring_buffer_put_2(&rb, 0b1111100000001100, 74);
+        ring_buffer_put_2(&rb, 0b1111100000001100, 75);
+        ring_buffer_put_2(&rb, 0b0000011000001000, 76);
+        ring_buffer_put_2(&rb, 0b0000011000001000, 77);
+        ring_buffer_put_2(&rb, 0b0000000110001000, 78);
+        ring_buffer_put_2(&rb, 0b0000000111101000, 79);
+        ring_buffer_put_2(&rb, 0b0000000001101000, 80);
+        ring_buffer_put_2(&rb, 0b0000000000101000, 81);
+        ring_buffer_put_2(&rb, 0b0000000000101000, 82);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 83);
+        ring_buffer_put_2(&rb, 0b0000000000011000, 84);
+        ring_buffer_put_2(&rb, 0b0000000000011000, 85);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 86);
+        ring_buffer_put_2(&rb, 0b0000000000111000, 87);
+        ring_buffer_put_2(&rb, 0b0000000001101000, 88);
+        ring_buffer_put_2(&rb, 0b0000000011001000, 89);
+        ring_buffer_put_2(&rb, 0b0000000111001000, 90);
+        ring_buffer_put_2(&rb, 0b0000001110001000, 91);
+        ring_buffer_put_2(&rb, 0b0000011000001000, 92);
+        ring_buffer_put_2(&rb, 0b0011110000001000, 93);
+        ring_buffer_put_2(&rb, 0b0111000000001000, 94);
+        ring_buffer_put_2(&rb, 0b0001110000001100, 95);
+        ring_buffer_put_2(&rb, 0b0000011100001100, 96);
+        ring_buffer_put_2(&rb, 0b0000001110001100, 97);
+        ring_buffer_put_2(&rb, 0b0000000010000100, 98);
+        ring_buffer_put_2(&rb, 0b0000000001111000, 99);
+        state_gif = 0;
+        need_load_buffer = false;
+    }
+}
+
 void display_buffer()
 {
     tic = read_timer_16();
@@ -599,9 +1023,14 @@ void display_buffer()
                 need_load_buffer = false;
             }
         }
+        else if (need_load_gif && state == 0b100)
+        {
+            load_penta();
+            need_load_gif = false;
+        }
         if (state != 0b01 && ((position) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (position + 1) * (tic_par_tour / RING_BUFFER_SIZE)))
         {
-            SPI_MasterTransmit_us(ring_buffer_get_2(&rb, position), time_us_per_turn / (RING_BUFFER_SIZE)); //(int) time_ms_per_turn/(RING_BUFFER_SIZE)
+            SPI_MasterTransmit_us(ring_buffer_get_2(&rb, position), time_us_per_turn / (RING_BUFFER_SIZE) / 4); //(int) time_ms_per_turn/(RING_BUFFER_SIZE)
             position++;
         }
     }

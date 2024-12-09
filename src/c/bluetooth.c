@@ -61,4 +61,5 @@ void transmit_number(long long num)
     {
         USART_Transmit(val[i] + 48);
     }
+    USART_Transmit('\n');
 }

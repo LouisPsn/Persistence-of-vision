@@ -30,9 +30,11 @@ volatile static long long time_us_per_turn = 0;
 
 volatile static bool need_load_buffer = false;
 volatile static bool need_incr_hour = false;
+volatile static bool need_load_gif = false;
 
 volatile static char state = 0b00;
 volatile static char state_img = 0;
+volatile static char state_gif = 0;
 
 static struct ring_buffer rb_receive;
 
@@ -54,6 +56,8 @@ void new_word();
 void load_mario();
 void load_croix_occitane();
 void load_chirac();
+
+void load_penta();
 
 void display_buffer();
 

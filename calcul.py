@@ -17,7 +17,7 @@ def print_tab(values):
     
 
 
-def main(path="photo_2024-12-02_13-59-21.jpg"):
+def main(path="penta-4.jpg"):
     
     number_of_frame = 100
 
