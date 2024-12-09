@@ -8,6 +8,7 @@ ISR(INT0_vect)
     clear_timer_16();
     first = 0;
     position = 0;
+    position_clock = 0;
     time_us_per_turn = tic_par_tour;
     time_us_per_turn = time_us_per_turn * 1000000 / 203125;
     need_load_gif = true;
@@ -962,7 +963,6 @@ void load_penta()
 
 void display_buffer()
 {
-    tic = read_timer_16();
     if (rb_has_data(&rb_receive))
     {
         parse_data();
@@ -1011,12 +1011,24 @@ void display_buffer()
             load_penta();
             need_load_gif = false;
         }
-        if (state != 0b01 && ((position) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (position + 1) * (tic_par_tour / RING_BUFFER_SIZE)))
+        tic = read_timer_16();
+        position = tic;
+        position = position * RING_BUFFER_SIZE / tic_par_tour;
+        if (position >= RING_BUFFER_SIZE)
         {
-            // int tic = read_timer_16();
-            SPI_MasterTransmit_us(ring_buffer_get_2(&rb, position), time_us_per_turn / RING_BUFFER_SIZE / 4); //(int) time_ms_per_turn/(RING_BUFFER_SIZE)
-            // transmit_number(read_timer_16() - tic);
-            position++;
+            position = RING_BUFFER_SIZE - 1;
+        }
+        if (state != 0b01 && state != 0b00)
+        {
+            SPI_MasterTransmit_us(ring_buffer_get_2(&rb, position), time_us_per_turn / RING_BUFFER_SIZE); //(int) time_ms_per_turn/(RING_BUFFER_SIZE)                                                                                                      // position++;
+        }
+        if (state == 0b00 && ((position_clock) * (tic_par_tour / RING_BUFFER_SIZE) <= tic) && (tic <= (position_clock + 1) * (tic_par_tour / RING_BUFFER_SIZE)))
+        {
+            if (position_clock >= RING_BUFFER_SIZE) {
+                position_clock = RING_BUFFER_SIZE - 1;
+            } 
+            SPI_MasterTransmit_us_clock(ring_buffer_get_2(&rb, position_clock), time_us_per_turn / RING_BUFFER_SIZE); //(int) time_ms_per_turn/(RING_BUFFER_SIZE)
+            position_clock++;
         }
     }
 }

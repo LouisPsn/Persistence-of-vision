@@ -15,6 +15,8 @@ void SPI_MasterInit(void);
 
 void SPI_MasterTransmit_us(int16_t cData, int16_t d);
 
+void SPI_MasterTransmit_us_clock(int16_t cData, int16_t d);
+
 void SPI_MasterTransmit_ms(int16_t cData, int16_t d);
 
 void SPI_MasterTransmit(int16_t cData, int16_t d);

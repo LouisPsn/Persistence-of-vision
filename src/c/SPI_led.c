@@ -38,12 +38,46 @@ void SPI_MasterTransmit_us(int16_t cData, int16_t d)
     //_delay_us(1);
 
     PORTC &= ~(1 << OE);
-    for (int i = 0; i < d; i++)
+    // for (int i = 0; i < d; i++)
+    // {
+    //     _delay_us(1);
+    // }
+
+    // for(int i=0; i<d; i++ ){_delay_ms(1);}
+    //_delay_us(10);
+}
+
+void SPI_MasterTransmit_us_clock(int16_t cData, int16_t d)
+{
+    PORTC |= (1 << OE); //
+    _delay_us(10);
+
+    // Transmettre les 8 bits de poids fort
+    SPDR = (cData >> 8) & 0xFF;
+    while (!(SPSR & (1 << SPIF)))
+    {
+    }
+
+    // Transmettre les 8 bits de poids faible
+    SPDR = cData & 0xFF;
+    while (!(SPSR & (1 << SPIF)))
+    {
+    }
+
+    PORTC |= (1 << LE);
+    _delay_us(1);
+
+    PORTC &= ~(1 << LE);
+    ;
+    //_delay_us(1);
+
+    PORTC &= ~(1 << OE);
+    for (int i = 0; i < 20; i++)
     {
         _delay_us(1);
     }
+    PORTC |= (1 << OE); //
 
-    PORTC |= (1 << OE);
     // for(int i=0; i<d; i++ ){_delay_ms(1);}
     //_delay_us(10);
 }

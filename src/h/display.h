@@ -18,7 +18,8 @@
 volatile static int16_t tic_par_tour = 0;
 volatile static int16_t tic = 0;
 volatile static char first = 1;
-volatile static int16_t position = 0;
+volatile static long long position = 0;
+volatile static uint16_t position_clock = 0;
 static struct frame_buffer rb;
 
 volatile static int8_t sec = 0;
