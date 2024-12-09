@@ -1,4 +1,4 @@
-#include "../h/new_word.h"
+#include "../h/display.h"
 
 char word_received[WORD_SIZE_MAX] = {0};
 

@@ -1,6 +1,6 @@
 #include "h/clock.h"
 #include "h/hall.h"
-#include "h/new_word.h"
+#include "h/display.h"
 #include "h/clock.h"
 
 void setup()
